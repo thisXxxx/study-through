@@ -47,9 +47,6 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
         try {
             Claims claims = JwtUtil.parseJWT(token);
             userId = claims.getSubject();
-            /*DecodedJWT tokenInfo = JwtUtils.getTokenInfo(token);
-            Claim claim = tokenInfo.getClaim("userId");
-            userId = claim.asString();*/
         } catch (Exception e) {
             log.error("token非法");
             filterChain.doFilter(request,response);
