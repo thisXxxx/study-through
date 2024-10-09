@@ -1,0 +1,31 @@
+mybatis-plus:
+  configuration:
+    map-underscore-to-camel-case: true #开启驼峰转下划线配置
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl #配置日志输出
+  global-config:
+    db-config:
+      id-type: auto # 数据库id自增
+  type-aliases-package: team.weilai.studythrough.pojo
+
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://81.70.144.36:3306/study_db
+    username: root
+    password: 211322@luntan
+    type: com.alibaba.druid.pool.DruidDataSource
+  servlet:
+    multipart:
+      max-file-size: 2048MB
+      max-request-size: 2048MB
+  redis:
+    host: 81.70.144.36
+    port: 6379
+    password: G211322@Wj
+    lettuce:
+      pool:
+        max-active: 15
+        min-idle: 0
+        max-idle: 8
+        max-wait: 100
+    timeout: 1000

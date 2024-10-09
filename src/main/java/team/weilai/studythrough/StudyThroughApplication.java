@@ -1,4 +1,4 @@
-package studythrough;
+package team.weilai.studythrough;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
