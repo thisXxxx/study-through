@@ -36,8 +36,6 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
     @Resource
     private AuthenticationManager authenticationManager;
     @Resource
-    private StringRedisTemplate stringRedisTemplate;
-    @Resource
     private RedisTemplate<String,Object> redisTemplate;
 
 
@@ -60,7 +58,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
         String token = JwtUtil.createJWT(id.toString());
         map.put("role",status.toString());
         map.put("token",token);
-        redisTemplate.opsForValue().set(LOGIN_USER+id,id,LOGIN_EXPIRE, TimeUnit.MINUTES);
+        redisTemplate.opsForValue().set(LOGIN_USER+id,principal,LOGIN_EXPIRE, TimeUnit.MINUTES);
         return Result.ok(map);
     }
 }

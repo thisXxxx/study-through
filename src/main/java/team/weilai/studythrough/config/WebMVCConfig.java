@@ -14,8 +14,6 @@ import javax.annotation.Resource;
 @EnableSwagger2
 public class WebMVCConfig extends WebMvcConfigurationSupport {
 
-    @Resource
-    private StringRedisTemplate stringRedisTemplate;
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry){
