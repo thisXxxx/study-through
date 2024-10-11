@@ -3,6 +3,10 @@ package team.weilai.studythrough.util;
 /**
  * @author gwj
  */
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
+import team.weilai.studythrough.pojo.LoginUser;
+
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
@@ -24,6 +28,12 @@ public class CommonUtils {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public static Long getUserId() {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        LoginUser loginUser = (LoginUser) principal;
+        return loginUser.getUser().getUserId();
     }
 
 }

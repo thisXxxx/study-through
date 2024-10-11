@@ -30,3 +30,9 @@ spring:
         max-wait: 100
     timeout: 1000
     database: 5
+
+minio:
+  url: http://81.70.144.36:9000
+  access: DZ13BSEWCL44N24QFF8L
+  secret: 33ZZfmPoTVCbdMhuJ2KBLmcJ6VqPoNKNDstB+R3v
+  bucket: study
