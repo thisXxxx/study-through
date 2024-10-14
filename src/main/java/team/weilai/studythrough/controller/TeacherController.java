@@ -2,18 +2,21 @@ package team.weilai.studythrough.controller;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import team.weilai.studythrough.pojo.DTO.ArgDTO;
+import team.weilai.studythrough.pojo.DTO.FileDTO;
 import team.weilai.studythrough.pojo.DTO.LessonDTO;
+import team.weilai.studythrough.pojo.Doc;
 import team.weilai.studythrough.pojo.Lesson;
 import team.weilai.studythrough.pojo.VO.LessonVO;
 import team.weilai.studythrough.pojo.VO.Result;
+import team.weilai.studythrough.service.DocService;
 import team.weilai.studythrough.service.LessonService;
 import team.weilai.studythrough.util.CommonUtils;
 
@@ -33,6 +36,8 @@ public class TeacherController {
 
     @Resource
     private LessonService lessonService;
+    @Resource
+    private DocService docService;
 
 
     @PostMapping("/create")
@@ -61,7 +66,24 @@ public class TeacherController {
         return lessonService.getList(argDTO);
     }
 
+    @PostMapping("/makeDir")
+    @ApiOperation("创建文件夹")
+    @ApiImplicitParam(name = "isRoot", value = "0:不是根目录 1：是根目录")
+    public Result<Void> makeDir(Long parentId,Long lessonId,String dirName) {
+        return docService.makeDir(parentId,lessonId,dirName);
+    }
 
+    @PostMapping("/makeFile")
+    @ApiOperation("上传文件")
+    public Result<Void> makeFile(@RequestPart("file")MultipartFile file,Long parentId,Long lessonId) {
+        return docService.makeFile(file,parentId,lessonId);
+    }
 
+    @GetMapping("/listFile")
+    @ApiOperation("根据父id获取文件列表")
+    @PreAuthorize("hasAnyAuthority('0','1')")
+    public Result<Page<Doc>> listFile(@Valid FileDTO fileDTO) {
+        return docService.listFile(fileDTO);
+    }
 
 }

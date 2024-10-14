@@ -12,13 +12,12 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <spring-boot.version>2.6.13</spring-boot.version>
-        <minio.version>6.0.8</minio.version>
     </properties>
     <dependencies>
         <dependency>
             <groupId>io.minio</groupId>
             <artifactId>minio</artifactId>
-            <version>${minio.version}</version>
+            <version>8.2.1</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>

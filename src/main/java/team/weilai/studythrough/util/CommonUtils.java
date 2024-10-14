@@ -3,6 +3,7 @@ package team.weilai.studythrough.util;
 /**
  * @author gwj
  */
+import io.swagger.models.auth.In;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import team.weilai.studythrough.pojo.LoginUser;
@@ -34,6 +35,12 @@ public class CommonUtils {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         LoginUser loginUser = (LoginUser) principal;
         return loginUser.getUser().getUserId();
+    }
+
+    public static Integer getRole() {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        LoginUser loginUser = (LoginUser) principal;
+        return loginUser.getUser().getStatus();
     }
 
 }

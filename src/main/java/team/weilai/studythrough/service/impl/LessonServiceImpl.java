@@ -5,11 +5,14 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import team.weilai.studythrough.enums.StatusCodeEnum;
+import team.weilai.studythrough.mapper.DocMapper;
 import team.weilai.studythrough.mapper.LessonMapper;
 import team.weilai.studythrough.pojo.DTO.ArgDTO;
 import team.weilai.studythrough.pojo.DTO.LessonDTO;
+import team.weilai.studythrough.pojo.Doc;
 import team.weilai.studythrough.pojo.Lesson;
 import team.weilai.studythrough.pojo.VO.LessonVO;
 import team.weilai.studythrough.pojo.VO.Result;
@@ -37,8 +40,11 @@ public class LessonServiceImpl extends ServiceImpl<LessonMapper, Lesson>
     private MinioUtil minioUtil;
     @Resource
     private LessonMapper lessonMapper;
+    @Resource
+    private DocMapper docMapper;
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public Result<Void> createLesson(LessonDTO lessonDTO) {
         Lesson lesson = null;
         try {
@@ -52,10 +58,12 @@ public class LessonServiceImpl extends ServiceImpl<LessonMapper, Lesson>
         }
         lesson.setUserId(CommonUtils.getUserId());
         MultipartFile file = lessonDTO.getFile();
-        String cover = minioUtil.upFile(file);
+        String cover = minioUtil.upload(file);
         lesson.setCoverUrl(cover);
         lesson.setInviteCode(RandomUtil.randomString(SOURCE,8));
         save(lesson);
+        Doc doc = new Doc(lesson.getLessonId());
+        docMapper.insert(doc);
         return Result.ok();
     }
 

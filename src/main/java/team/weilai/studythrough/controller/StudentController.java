@@ -8,13 +8,11 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import team.weilai.studythrough.pojo.DTO.ArgDTO;
 import team.weilai.studythrough.pojo.VO.LessonStuVO;
-import team.weilai.studythrough.pojo.VO.LessonVO;
 import team.weilai.studythrough.pojo.VO.Result;
 import team.weilai.studythrough.service.StudentService;
 
 import javax.annotation.Resource;
 import javax.validation.Valid;
-import javax.validation.constraints.NotBlank;
 
 /**
  * @author gwj

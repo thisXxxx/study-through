@@ -23,7 +23,6 @@ public class Lesson {
     private String lessonName;
     private Long userId;
     private String coverUrl;
-    private Long resourceId;
     private String inviteCode;
     private Date endTime;
     private Date createTime;

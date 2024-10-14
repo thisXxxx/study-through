@@ -6,6 +6,10 @@ import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
+import team.weilai.studythrough.interceptor.LessonInterceptor;
+import team.weilai.studythrough.mapper.LessonMapper;
+import team.weilai.studythrough.mapper.LessonStuMapper;
+import team.weilai.studythrough.pojo.LessonStu;
 
 import javax.annotation.Resource;
 
@@ -13,6 +17,10 @@ import javax.annotation.Resource;
 @Configuration
 @EnableSwagger2
 public class WebMVCConfig extends WebMvcConfigurationSupport {
+    @Resource
+    private LessonStuMapper lessonStuMapper;
+    @Resource
+    private LessonMapper lessonMapper;
 
 
     @Override
@@ -28,5 +36,12 @@ public class WebMVCConfig extends WebMvcConfigurationSupport {
     }
 
 
+    @Override
+    protected void addInterceptors(InterceptorRegistry registry) {
+        registry.addInterceptor(new LessonInterceptor(lessonMapper,lessonStuMapper)).addPathPatterns(
+                "/tea/listFile"
+        );
+
+    }
 
 }

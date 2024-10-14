@@ -10,8 +10,10 @@ class StudyThroughApplicationTests {
 
     @Test
     void contextLoads() {
-        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-        System.out.println(encoder.encode("123456"));
+        /*BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        System.out.println(encoder.encode("123456"));*/
+        Boolean b = Boolean.valueOf(null);
+        System.out.println(b);
     }
 
 }
