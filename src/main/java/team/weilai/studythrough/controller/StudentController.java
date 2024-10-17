@@ -10,6 +10,7 @@ import team.weilai.studythrough.pojo.DTO.ArgDTO;
 import team.weilai.studythrough.pojo.VO.LessonStuVO;
 import team.weilai.studythrough.pojo.VO.Result;
 import team.weilai.studythrough.service.StudentService;
+import team.weilai.studythrough.websocket.pojo.AuditStu;
 
 import javax.annotation.Resource;
 import javax.validation.Valid;
@@ -29,7 +30,7 @@ public class StudentController {
 
     @PostMapping("/join")
     @ApiOperation("学生加入课程")
-    public Result<Void> join(@NotNull String code) {
+    public Result<AuditStu> join(@NotNull String code) {
         return studentService.join(code);
     }
 

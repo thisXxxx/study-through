@@ -45,10 +45,8 @@ public class DocServiceImpl extends ServiceImpl<DocMapper, Doc> implements DocSe
     }
 
     @Override
-    public Result<Void> makeFile(MultipartFile file, Long parentId, Long lessonId) {
-        String upload = minioUtil.upload(file);
-        String docTitle = file.getOriginalFilename();
-        Doc doc = new Doc(lessonId, docTitle, upload);
+    public Result<Void> makeFile(String filePath,String fileName, Long parentId, Long lessonId) {
+        Doc doc = new Doc(lessonId, fileName, filePath);
         if (parentId != -1) {
             Doc one = query()
                     .select("lesson_id")

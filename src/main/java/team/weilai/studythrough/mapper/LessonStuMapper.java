@@ -16,4 +16,5 @@ public interface LessonStuMapper extends BaseMapper<LessonStu> {
     Page<LessonStuVO> selectLesson(@Param("page") Page<LessonStuVO> page,
                                    @Param("name") String name,
                                    @Param("userId")Long userId);
+
 }

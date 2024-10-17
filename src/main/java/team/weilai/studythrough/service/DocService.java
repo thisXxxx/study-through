@@ -16,7 +16,7 @@ import team.weilai.studythrough.pojo.VO.Result;
 public interface DocService extends IService<Doc> {
     Result<Void> makeDir(Long parentId, Long lessonId,String dirName);
 
-    Result<Void> makeFile(MultipartFile file, Long parentId, Long lessonId);
+    Result<Void> makeFile(String filePath,String fileName, Long parentId, Long lessonId);
 
     Result<Page<Doc>> listFile(FileDTO fileDTO);
 

@@ -21,10 +21,21 @@ public class LessonStu {
     @TableId(type = IdType.AUTO)
     private Long lessonStuId;
     private Long lessonId;
+    private String lessonName;
+    private String stuClass;
+    private String name;
     private Long userId;
+    private Long teaId;
+    private Integer status;
     private Date createTime;
-    public LessonStu(Long lessonId,Long userId) {
+    private Date updateTime;
+    private Integer isRead;
+    public LessonStu(Long lessonId,Long userId,Long teaId,String lessonName,String stuClass,String name) {
+        this.teaId = teaId;
         this.lessonId = lessonId;
         this.userId = userId;
+        this.lessonName = lessonName;
+        this.stuClass = stuClass;
+        this.name = name;
     }
 }

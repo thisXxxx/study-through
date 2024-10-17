@@ -39,7 +39,9 @@ public class WebMVCConfig extends WebMvcConfigurationSupport {
     @Override
     protected void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(new LessonInterceptor(lessonMapper,lessonStuMapper)).addPathPatterns(
-                "/tea/listFile"
+                "/tea/listFile",
+                "/tea/makeDir",
+                "/tea/makeFile"
         );
 
     }

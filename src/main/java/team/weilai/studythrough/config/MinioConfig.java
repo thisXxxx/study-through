@@ -20,6 +20,7 @@ public class MinioConfig {
     private String bucket;
     private Integer expiry;
     private Integer breakpointTime;
+    private String tempBucket;
 
     @Bean
     public MinioClient minioClient() {

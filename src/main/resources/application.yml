@@ -38,3 +38,4 @@ minio:
   bucket: study
   expiry: 1 # redis 文件信息失效时间 天
   breakpointTime: 1 # 分片地址失效时间 天
+  tempBucket: temp-file

@@ -60,7 +60,7 @@ public class LessonServiceImpl extends ServiceImpl<LessonMapper, Lesson>
         MultipartFile file = lessonDTO.getFile();
         String cover = minioUtil.upload(file);
         lesson.setCoverUrl(cover);
-        lesson.setInviteCode(RandomUtil.randomString(SOURCE,8));
+        lesson.setInviteCode(RandomUtil.randomString(SOURCE,12));
         save(lesson);
         Doc doc = new Doc(lesson.getLessonId());
         docMapper.insert(doc);

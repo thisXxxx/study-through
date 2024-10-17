@@ -9,19 +9,24 @@ import org.jetbrains.annotations.NotNull;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import team.weilai.studythrough.enums.StatusCodeEnum;
 import team.weilai.studythrough.pojo.DTO.ArgDTO;
 import team.weilai.studythrough.pojo.DTO.FileDTO;
 import team.weilai.studythrough.pojo.DTO.LessonDTO;
 import team.weilai.studythrough.pojo.Doc;
 import team.weilai.studythrough.pojo.Lesson;
+import team.weilai.studythrough.pojo.LessonStu;
 import team.weilai.studythrough.pojo.VO.LessonVO;
 import team.weilai.studythrough.pojo.VO.Result;
 import team.weilai.studythrough.service.DocService;
 import team.weilai.studythrough.service.LessonService;
+import team.weilai.studythrough.service.TeacherService;
 import team.weilai.studythrough.util.CommonUtils;
+import team.weilai.studythrough.websocket.pojo.AuditStu;
 
 import javax.annotation.Resource;
 import javax.validation.Valid;
+import java.util.List;
 
 
 /**
@@ -38,6 +43,8 @@ public class TeacherController {
     private LessonService lessonService;
     @Resource
     private DocService docService;
+    @Resource
+    private TeacherService teacherService;
 
 
     @PostMapping("/create")
@@ -74,9 +81,9 @@ public class TeacherController {
     }
 
     @PostMapping("/makeFile")
-    @ApiOperation("上传文件")
-    public Result<Void> makeFile(@RequestPart("file")MultipartFile file,Long parentId,Long lessonId) {
-        return docService.makeFile(file,parentId,lessonId);
+    @ApiOperation("上传课程文件")
+    public Result<Void> makeFile(String filePath,String fileName,Long parentId,Long lessonId) {
+        return docService.makeFile(filePath,fileName,parentId,lessonId);
     }
 
     @GetMapping("/listFile")
@@ -84,6 +91,53 @@ public class TeacherController {
     @PreAuthorize("hasAnyAuthority('0','1')")
     public Result<Page<Doc>> listFile(@Valid FileDTO fileDTO) {
         return docService.listFile(fileDTO);
+    }
+
+    @GetMapping("/auditList")
+    @ApiOperation("获取课程申请列表")
+    public Result<Page<LessonStu>> auditList(@NotNull Integer pageNum, @NotNull Integer pageSize) {
+        if (pageNum <= 0 || pageSize <= 0) {
+            return Result.fail(StatusCodeEnum.VALID_ERROR);
+        }
+        return teacherService.auditList(pageNum,pageSize);
+    }
+
+    @PutMapping("/audit")
+    @ApiOperation("审核申请课程学生")
+    @ApiImplicitParam(name = "choose",value = "1:通过 2：拒绝")
+    public Result<AuditStu> audit(@NotNull Long lessonStuId, @NotNull Integer choose) {
+        if (choose != 1 && choose != 2) {
+            return Result.fail(StatusCodeEnum.VALID_ERROR);
+        }
+        return teacherService.audit(lessonStuId,choose);
+    }
+
+    @PostMapping("/bigUpload")
+    @ApiOperation("分片上传")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "md5",value = "编码"),
+            @ApiImplicitParam(name = "chunk",value = "当前切片数"),
+            @ApiImplicitParam(name = "total",value = "切片总数")
+    })
+    public Result<String> uploadBig(@RequestPart("file")MultipartFile file, Integer chunk,Integer total,String md5) {
+        return teacherService.uploadBig(file,chunk,total,md5);
+    }
+
+    @PostMapping("/merge")
+    @ApiOperation("合并分片文件")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "md5",value = "编码"),
+            @ApiImplicitParam(name = "fileName",value = "文件名称"),
+            @ApiImplicitParam(name = "total",value = "分片总数")
+    })
+    public Result<String> mergePart(@NotNull String md5,@NotNull String fileName,@NotNull Integer total) {
+        return teacherService.mergePart(md5,fileName,total);
+    }
+
+    @GetMapping("/getNoUp")
+    @ApiOperation("查询未上传索引")
+    public Result<List<Integer>> getNoUp(@NotNull String md5) {
+        return teacherService.getNoUp(md5);
     }
 
 }
