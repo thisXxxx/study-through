@@ -22,6 +22,8 @@ import java.io.IOException;
 import java.time.Duration;
 import java.util.Objects;
 
+import static team.weilai.studythrough.constants.Constants.WEBSOCKET_PROTOCOL;
+
 /**
  * @author gwj
  */
@@ -36,7 +38,10 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         //获取token
-        String token = request.getHeader("token");
+        String token = request.getHeader(WEBSOCKET_PROTOCOL);
+        if (token == null) {
+            token = request.getHeader("token");
+        }
         if (StringUtils.isEmpty(token)) {
             //放行，后面的过滤器会判断登录状态
             filterChain.doFilter(request,response);

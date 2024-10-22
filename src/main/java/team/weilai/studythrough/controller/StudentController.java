@@ -6,7 +6,9 @@ import io.swagger.annotations.ApiOperation;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import team.weilai.studythrough.enums.StatusCodeEnum;
 import team.weilai.studythrough.pojo.DTO.ArgDTO;
+import team.weilai.studythrough.pojo.LessonStu;
 import team.weilai.studythrough.pojo.VO.LessonStuVO;
 import team.weilai.studythrough.pojo.VO.Result;
 import team.weilai.studythrough.service.StudentService;
@@ -40,4 +42,12 @@ public class StudentController {
         return studentService.getList(argDTO);
     }
 
+    @GetMapping("/getRecords")
+    @ApiOperation("获取课程申请消息记录")
+    public Result<Page<LessonStu>> getRecords(@NotNull Integer pageNum,@NotNull Integer pageSize) {
+        if (pageNum <= 0 || pageSize <= 0) {
+            return Result.fail(StatusCodeEnum.VALID_ERROR);
+        }
+        return studentService.getRecords(pageNum,pageSize);
+    }
 }

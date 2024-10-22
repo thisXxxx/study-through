@@ -75,7 +75,6 @@ public class TeacherController {
 
     @PostMapping("/makeDir")
     @ApiOperation("创建文件夹")
-    @ApiImplicitParam(name = "isRoot", value = "0:不是根目录 1：是根目录")
     public Result<Void> makeDir(Long parentId,Long lessonId,String dirName) {
         return docService.makeDir(parentId,lessonId,dirName);
     }

@@ -31,7 +31,7 @@ public class DocServiceImpl extends ServiceImpl<DocMapper, Doc> implements DocSe
     @Override
     public Result<Void> makeDir(Long parentId, Long lessonId, String dirName) {
         Doc doc = new Doc(lessonId, dirName);
-        if (parentId != 1) {
+        if (parentId != -1) {
             Doc one = query()
                     .select("lesson_id")
                     .eq("doc_id", parentId).eq("is_dir", 1).one();
