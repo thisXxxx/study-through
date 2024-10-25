@@ -12,4 +12,7 @@ public class Constants {
     public static final String SOURCE = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789abcdefghijklmnopqrstuvwxyz";
     public static final String PATH_PREFIX = "http://81.70.144.36:9000/";
     public static final String WEBSOCKET_PROTOCOL="Sec-WebSocket-Protocol";
+
+    public static final String PRO_URL = System.getProperty("user.dir").replaceAll("\\\\", "/");
+    public static final String TEMP = "/file/tmp/";
 }

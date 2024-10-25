@@ -4,24 +4,23 @@ import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.lang.UUID;
 import cn.hutool.core.util.StrUtil;
+import cn.hutool.json.JSONUtil;
 import com.google.common.collect.Sets;
 import io.minio.*;
-import io.minio.errors.*;
 import io.minio.messages.DeleteError;
 import io.minio.messages.DeleteObject;
 import io.minio.messages.Item;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 import team.weilai.studythrough.config.MinioConfig;
 
 import javax.annotation.Resource;
-import java.io.IOException;
+import javax.servlet.http.HttpServletResponse;
 import java.io.InputStream;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
+import java.io.OutputStream;
+import java.net.URLEncoder;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
@@ -80,14 +79,13 @@ public class MinioUtil {
     /**
      * 通过流上传文件
      *
-     * @param bucketName  存储桶
      * @param fileName    文件名
      * @param inputStream 文件流
      */
-    public ObjectWriteResponse uploadFileStream(String bucketName, String fileName, InputStream inputStream) throws Exception {
+    public ObjectWriteResponse uploadFileStream(String fileName, InputStream inputStream) throws Exception {
         return minioClient.putObject(
                 PutObjectArgs.builder()
-                        .bucket(bucketName)
+                        .bucket(config.getBucket())
                         .object(fileName)
                         .stream(inputStream, inputStream.available(), -1)
                         .build());
@@ -221,5 +219,61 @@ public class MinioUtil {
         return minioClient.removeObjects(
                 RemoveObjectsArgs.builder().bucket(bucketName).objects(objectPaths).build());
     }
+
+
+
+
+
+    /* ************************************ -文件下载- ************************************ */
+
+    /**
+     * 普通文件下载
+     *
+     * @param path 文件路径
+     * @param bucketName 桶
+     * @param response 响应
+     */
+    public void fileDownload(String path,String bucketName, HttpServletResponse response) {
+        InputStream inputStream;
+        OutputStream outputStream = null;
+        try{
+            outputStream = response.getOutputStream();
+            //获取文件对象
+            inputStream = minioClient.getObject(
+                    GetObjectArgs.builder()
+                            .bucket(bucketName)
+                            .object(path)
+                            .build()
+            );
+            byte[] bytes = new byte[1024];
+            int len = 0;
+            response.reset();
+            response.setHeader("Content-Disposition", "attachment;filename=" +
+                    URLEncoder.encode(path.substring(path.lastIndexOf("/") + 1), "UTF-8"));
+            response.setContentType("application/octet-stream");
+            response.setCharacterEncoding("UTF-8");
+            //输出文件
+            while ((len = inputStream.read(bytes)) > 0) {
+                outputStream.write(bytes,0,len);
+            }
+            log.info("下载成功");
+            inputStream.close();
+        }catch (Exception e) {
+            log.error("{}，下载失败，{}",path,e.getMessage());
+            String s = JSONUtil.toJsonStr(team.weilai.studythrough.pojo.vo.Result.fail("文件下载失败"));
+            response.reset();
+            CommonUtils.renderString(response,s);
+        } finally {
+            try {
+                if (outputStream != null) {
+                    outputStream.close();
+                }
+            } catch (Exception e) {
+                log.error("关流异常，{}",e.getMessage());
+            }
+        }
+    }
+
+
 }
 

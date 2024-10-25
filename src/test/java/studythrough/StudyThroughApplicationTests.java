@@ -1,5 +1,8 @@
 package studythrough;
 
+import io.minio.ComposeObjectArgs;
+import io.minio.MinioClient;
+import io.minio.ObjectWriteResponse;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -13,13 +16,13 @@ class StudyThroughApplicationTests {
 
     @Resource
     private MinioUtil minioUtil;
+    @Resource
+    private MinioClient minioClient;
 
     @Test
     void contextLoads() {
-        /*BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-        System.out.println(encoder.encode("123456"));*/
-        // sdfsa890/05
-        System.out.println(minioUtil.getFileTempPath("sdfsa890", 0, 10));
+        String projectUrl = System.getProperty("user.dir").replaceAll("\\\\", "/");
+        System.out.println(projectUrl);
     }
 
 }

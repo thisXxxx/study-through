@@ -2,7 +2,6 @@ package team.weilai.studythrough.interceptor;
 
 import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import io.swagger.models.auth.In;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
@@ -11,11 +10,9 @@ import team.weilai.studythrough.mapper.LessonMapper;
 import team.weilai.studythrough.mapper.LessonStuMapper;
 import team.weilai.studythrough.pojo.Lesson;
 import team.weilai.studythrough.pojo.LessonStu;
-import team.weilai.studythrough.pojo.VO.Result;
-import team.weilai.studythrough.service.LessonService;
+import team.weilai.studythrough.pojo.vo.Result;
 import team.weilai.studythrough.util.CommonUtils;
 
-import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Objects;

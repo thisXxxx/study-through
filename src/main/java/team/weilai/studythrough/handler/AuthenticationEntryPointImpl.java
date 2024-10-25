@@ -5,7 +5,7 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.stereotype.Component;
 import team.weilai.studythrough.enums.StatusCodeEnum;
-import team.weilai.studythrough.pojo.VO.Result;
+import team.weilai.studythrough.pojo.vo.Result;
 import team.weilai.studythrough.util.CommonUtils;
 
 import javax.servlet.ServletException;

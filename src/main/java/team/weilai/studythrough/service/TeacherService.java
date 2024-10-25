@@ -3,7 +3,7 @@ package team.weilai.studythrough.service;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.web.multipart.MultipartFile;
 import team.weilai.studythrough.pojo.LessonStu;
-import team.weilai.studythrough.pojo.VO.Result;
+import team.weilai.studythrough.pojo.vo.Result;
 import team.weilai.studythrough.websocket.pojo.AuditStu;
 
 import java.util.List;
@@ -19,7 +19,7 @@ public interface TeacherService {
 
     Result<String> uploadBig(MultipartFile file, Integer chunk, Integer total, String md5);
 
-    Result<String> mergePart(String md5, String fileName,Integer toal);
+    Result<String> mergePart(String md5, String fileName);
 
     Result<List<Integer>> getNoUp(String md5);
 }

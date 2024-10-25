@@ -1,18 +1,17 @@
 package team.weilai.studythrough.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.metadata.OrderItem;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.stereotype.Service;
 import team.weilai.studythrough.enums.StatusCodeEnum;
 import team.weilai.studythrough.mapper.LessonStuMapper;
 import team.weilai.studythrough.mapper.UserMapper;
-import team.weilai.studythrough.pojo.DTO.ArgDTO;
+import team.weilai.studythrough.pojo.dto.ArgDTO;
 import team.weilai.studythrough.pojo.Lesson;
 import team.weilai.studythrough.pojo.LessonStu;
 import team.weilai.studythrough.pojo.User;
-import team.weilai.studythrough.pojo.VO.LessonStuVO;
-import team.weilai.studythrough.pojo.VO.Result;
+import team.weilai.studythrough.pojo.vo.LessonStuVO;
+import team.weilai.studythrough.pojo.vo.Result;
 import team.weilai.studythrough.service.LessonService;
 import team.weilai.studythrough.service.StudentService;
 import team.weilai.studythrough.util.CommonUtils;

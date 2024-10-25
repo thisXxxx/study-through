@@ -10,14 +10,14 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import team.weilai.studythrough.enums.StatusCodeEnum;
-import team.weilai.studythrough.pojo.DTO.ArgDTO;
-import team.weilai.studythrough.pojo.DTO.FileDTO;
-import team.weilai.studythrough.pojo.DTO.LessonDTO;
+import team.weilai.studythrough.pojo.dto.ArgDTO;
+import team.weilai.studythrough.pojo.dto.FileDTO;
+import team.weilai.studythrough.pojo.dto.LessonDTO;
 import team.weilai.studythrough.pojo.Doc;
 import team.weilai.studythrough.pojo.Lesson;
 import team.weilai.studythrough.pojo.LessonStu;
-import team.weilai.studythrough.pojo.VO.LessonVO;
-import team.weilai.studythrough.pojo.VO.Result;
+import team.weilai.studythrough.pojo.vo.LessonVO;
+import team.weilai.studythrough.pojo.vo.Result;
 import team.weilai.studythrough.service.DocService;
 import team.weilai.studythrough.service.LessonService;
 import team.weilai.studythrough.service.TeacherService;
@@ -126,11 +126,10 @@ public class TeacherController {
     @ApiOperation("合并分片文件")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "md5",value = "编码"),
-            @ApiImplicitParam(name = "fileName",value = "文件名称"),
-            @ApiImplicitParam(name = "total",value = "分片总数")
+            @ApiImplicitParam(name = "fileName",value = "文件名称")
     })
-    public Result<String> mergePart(@NotNull String md5,@NotNull String fileName,@NotNull Integer total) {
-        return teacherService.mergePart(md5,fileName,total);
+    public Result<String> mergePart(@NotNull String md5,@NotNull String fileName) {
+        return teacherService.mergePart(md5,fileName);
     }
 
     @GetMapping("/getNoUp")

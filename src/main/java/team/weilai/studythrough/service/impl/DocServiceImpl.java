@@ -4,12 +4,11 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 import team.weilai.studythrough.enums.StatusCodeEnum;
 import team.weilai.studythrough.mapper.DocMapper;
-import team.weilai.studythrough.pojo.DTO.FileDTO;
+import team.weilai.studythrough.pojo.dto.FileDTO;
 import team.weilai.studythrough.pojo.Doc;
-import team.weilai.studythrough.pojo.VO.Result;
+import team.weilai.studythrough.pojo.vo.Result;
 import team.weilai.studythrough.service.DocService;
 import team.weilai.studythrough.util.MinioUtil;
 

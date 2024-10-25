@@ -2,15 +2,21 @@ package team.weilai.studythrough.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import team.weilai.studythrough.enums.StatusCodeEnum;
 import team.weilai.studythrough.mapper.LessonStuMapper;
-import team.weilai.studythrough.pojo.DTO.LoginDTO;
+import team.weilai.studythrough.pojo.dto.LoginDTO;
 import team.weilai.studythrough.pojo.LessonStu;
-import team.weilai.studythrough.pojo.VO.Result;
+import team.weilai.studythrough.pojo.vo.MessageVO;
+import team.weilai.studythrough.pojo.vo.Result;
+import team.weilai.studythrough.pojo.vo.UserVO;
+import team.weilai.studythrough.service.MessageService;
 import team.weilai.studythrough.service.UserService;
 import team.weilai.studythrough.util.CommonUtils;
 import team.weilai.studythrough.util.MinioUtil;
@@ -33,6 +39,8 @@ public class UserController {
     private MinioUtil minioUtil;
     @Resource
     private LessonStuMapper lessonStuMapper;
+    @Resource
+    private MessageService messageService;
 
 
     @PostMapping("/login")
@@ -81,4 +89,22 @@ public class UserController {
         }
         return Result.ok();
     }
+
+
+    @GetMapping("/getChatDetails")
+    @ApiOperation("查询课程聊天记录")
+    @PreAuthorize("hasAnyAuthority('0','1')")
+    public Result<Page<MessageVO>> chatDetails(@NotNull Integer pageNum, @NotNull Integer pageSize, @NotNull Long lessonId) {
+        if (pageNum <= 0 || pageSize <= 0) {
+            return Result.fail(StatusCodeEnum.VALID_ERROR);
+        }
+        return messageService.chatDetails(pageNum,pageSize,lessonId);
+    }
+
+    @GetMapping("/getProfile")
+    @ApiOperation("获取个人信息")
+    public Result<UserVO> getProfile() {
+        return userService.getProfile();
+    }
+
 }

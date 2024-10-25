@@ -54,11 +54,15 @@ public class StudentListener implements ReadListener<User> {
     @Override
     public void invoke(User user, AnalysisContext context) {
         log.info("解析到一条数据:{}", JSON.toJSONString(user));
-        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-        String encode = encoder.encode("123456");
-        user.setPassword(encode);
-        user.setStatus(type);
-        cachedDataList.add(user);
+        if (isExist(user.getUsername())) {
+            log.error("数据已存在");
+        }else {
+            BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+            String encode = encoder.encode("123456");
+            user.setPassword(encode);
+            user.setStatus(type);
+            cachedDataList.add(user);
+        }
 
         // 达到BATCH_COUNT了，需要去存储一次数据库，防止数据几万条数据在内存，容易OOM
         if (cachedDataList.size() >= BATCH_COUNT) {
@@ -94,5 +98,12 @@ public class StudentListener implements ReadListener<User> {
         log.info("存储数据库成功！");
 
     }
+
+    private boolean isExist(String username) {
+        User one = userService.query().eq("usrename", username).one();
+        return one != null;
+    }
+
+
 
 }

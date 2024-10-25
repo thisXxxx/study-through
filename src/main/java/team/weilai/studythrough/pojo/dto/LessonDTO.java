@@ -1,4 +1,4 @@
-package team.weilai.studythrough.pojo.DTO;
+package team.weilai.studythrough.pojo.dto;
 
 import lombok.Data;
 import org.springframework.web.multipart.MultipartFile;

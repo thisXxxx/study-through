@@ -7,10 +7,10 @@ import org.jetbrains.annotations.NotNull;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import team.weilai.studythrough.enums.StatusCodeEnum;
-import team.weilai.studythrough.pojo.DTO.ArgDTO;
+import team.weilai.studythrough.pojo.dto.ArgDTO;
 import team.weilai.studythrough.pojo.LessonStu;
-import team.weilai.studythrough.pojo.VO.LessonStuVO;
-import team.weilai.studythrough.pojo.VO.Result;
+import team.weilai.studythrough.pojo.vo.LessonStuVO;
+import team.weilai.studythrough.pojo.vo.Result;
 import team.weilai.studythrough.service.StudentService;
 import team.weilai.studythrough.websocket.pojo.AuditStu;
 

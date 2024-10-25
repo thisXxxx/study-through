@@ -2,11 +2,11 @@ package team.weilai.studythrough.service;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
-import team.weilai.studythrough.pojo.DTO.ArgDTO;
-import team.weilai.studythrough.pojo.DTO.LessonDTO;
+import team.weilai.studythrough.pojo.dto.ArgDTO;
+import team.weilai.studythrough.pojo.dto.LessonDTO;
 import team.weilai.studythrough.pojo.Lesson;
-import team.weilai.studythrough.pojo.VO.LessonVO;
-import team.weilai.studythrough.pojo.VO.Result;
+import team.weilai.studythrough.pojo.vo.LessonVO;
+import team.weilai.studythrough.pojo.vo.Result;
 
 /**
  * @author gwj

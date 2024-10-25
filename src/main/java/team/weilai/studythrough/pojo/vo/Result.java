@@ -1,4 +1,4 @@
-package team.weilai.studythrough.pojo.VO;
+package team.weilai.studythrough.pojo.vo;
 
 import lombok.Data;
 import lombok.ToString;

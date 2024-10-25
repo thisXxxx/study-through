@@ -2,12 +2,9 @@ package team.weilai.studythrough.service;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.sun.org.apache.xpath.internal.operations.Bool;
-import io.swagger.models.auth.In;
-import org.springframework.web.multipart.MultipartFile;
-import team.weilai.studythrough.pojo.DTO.FileDTO;
+import team.weilai.studythrough.pojo.dto.FileDTO;
 import team.weilai.studythrough.pojo.Doc;
-import team.weilai.studythrough.pojo.VO.Result;
+import team.weilai.studythrough.pojo.vo.Result;
 
 /**
  * @author gwj

@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import team.weilai.studythrough.pojo.Lesson;
-import team.weilai.studythrough.pojo.VO.LessonVO;
+import team.weilai.studythrough.pojo.vo.LessonVO;
 
 /**
  * @author gwj

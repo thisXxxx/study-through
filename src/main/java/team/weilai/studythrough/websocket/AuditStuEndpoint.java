@@ -6,6 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import team.weilai.studythrough.mapper.LessonStuMapper;
 import team.weilai.studythrough.pojo.LessonStu;
+import team.weilai.studythrough.websocket.config.GetUserConfigurator;
 import team.weilai.studythrough.websocket.pojo.AuditStu;
 
 import javax.annotation.PostConstruct;

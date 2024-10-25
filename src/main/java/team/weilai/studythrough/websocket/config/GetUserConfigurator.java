@@ -1,4 +1,4 @@
-package team.weilai.studythrough.websocket;
+package team.weilai.studythrough.websocket.config;
 
 
 import lombok.extern.slf4j.Slf4j;
@@ -16,6 +16,8 @@ public class GetUserConfigurator extends ServerEndpointConfig.Configurator {
         UsernamePasswordAuthenticationToken principal =(UsernamePasswordAuthenticationToken)request.getUserPrincipal();
         LoginUser loginUser =(LoginUser)principal.getPrincipal();
         sec.getUserProperties().put("id",String.valueOf(loginUser.getUser().getUserId()));
+        sec.getUserProperties().put("username",loginUser.getUsername());
+        sec.getUserProperties().put("role",loginUser.getUser().getStatus());
         super.modifyHandshake(sec, request, response);
     }
 }
