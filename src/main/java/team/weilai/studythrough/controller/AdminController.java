@@ -77,7 +77,7 @@ public class AdminController {
 
     @DeleteMapping("/del")
     @ApiOperation("删除用户")
-    public Result<Void> del(List<Long> ids) {
+    public Result<Void> del(@RequestBody List<Long> ids) {
         if (ids.isEmpty()) {
             return Result.fail(StatusCodeEnum.VALID_ERROR);
         }

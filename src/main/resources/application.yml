@@ -39,3 +39,9 @@ minio:
   expiry: 1 # redis 文件信息失效时间 天
   breakpointTime: 1 # 分片地址失效时间 天
   tempBucket: temp-file
+
+model:
+  hostUrl: https://spark-api.xf-yun.com/v4.0/chat
+  apiKey: cb1730e8ef787e92b2c2f3c9c6dd37da
+  apiSecret: OWE5OWNiYjkzNDk3MWNkM2EzYWNhMDc5
+  appId: 3ab592db

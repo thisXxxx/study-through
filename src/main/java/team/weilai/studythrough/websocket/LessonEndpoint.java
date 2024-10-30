@@ -3,6 +3,7 @@ package team.weilai.studythrough.websocket;
 import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Component;
 import team.weilai.studythrough.mapper.LessonMapper;
 import team.weilai.studythrough.mapper.LessonStuMapper;
@@ -21,6 +22,8 @@ import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
+import static team.weilai.studythrough.constants.RedisConstants.UNREAD;
+
 /**
  * @author gwj
  * @date 2024/10/23 20:34
@@ -34,6 +37,7 @@ public class LessonEndpoint {
     private static LessonStuMapper lessonStuMapper;
     private static MessageService messageService;
     private static LessonMapper lessonMapper;
+    private static StringRedisTemplate redisTemplate;
     private Long userId;
     private String username;
     private Integer role;
@@ -44,20 +48,23 @@ public class LessonEndpoint {
     private LessonMapper lMapper;
     @Resource
     private MessageService service;
+    @Resource
+    private StringRedisTemplate stringRedisTemplate;
 
     @PostConstruct
     public void init() {
         lessonStuMapper = mapper;
         messageService = service;
         lessonMapper = lMapper;
+        redisTemplate = stringRedisTemplate;
     }
 
 
     @OnOpen
     public void onOpen(EndpointConfig config,Session session) {
-        userId = (Long) config.getUserProperties().get("id");
+        userId = Long.parseLong(config.getUserProperties().get("id").toString());
         username = (String) config.getUserProperties().get("username");
-        role = (Integer) config.getUserProperties().get("role");
+        role = Integer.parseInt(config.getUserProperties().get("role").toString());
         if (role == 0) {
             List<LessonStu> list = lessonStuMapper.selectList(new QueryWrapper<LessonStu>()
                     .eq("user_id", userId)
@@ -95,13 +102,18 @@ public class LessonEndpoint {
             msg.setFromUserId(userId);
             msg.setUsername(username);
             msg.setCreateTime(new Date());
+            Long lessonId = msg.getLessonId();
+            /*String key = UNREAD + userId + ":" + lessonId;
+            Long count = redisTemplate.opsForValue().increment(key);
+            msg.setNoRead(count);*/
 
             String mess = JSONUtil.toJsonStr(msg);
-            Long lessonId = msg.getLessonId();
             Set<Session> set = map.get(lessonId);
             for (Session sess : set) {
                 try {
-                    sess.getBasicRemote().sendText(mess);
+                    if (sess.isOpen()) {
+                        sess.getBasicRemote().sendText(mess);
+                    }
                 } catch (IOException e) {
                     log.error("发送消息失败，{}",e.getMessage());
                 }

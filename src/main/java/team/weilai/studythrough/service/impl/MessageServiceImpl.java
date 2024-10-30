@@ -26,6 +26,6 @@ public class MessageServiceImpl extends ServiceImpl<MessageMapper, Message>
     public Result<Page<MessageVO>> chatDetails(Integer pageNum, Integer pageSize, Long lessonId) {
         Page<MessageVO> page = new Page<>(pageNum,pageSize);
         messageMapper.selectChat(page,lessonId);
-        return null;
+        return Result.ok(page);
     }
 }

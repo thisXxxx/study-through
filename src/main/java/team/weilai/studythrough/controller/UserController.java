@@ -13,9 +13,11 @@ import team.weilai.studythrough.enums.StatusCodeEnum;
 import team.weilai.studythrough.mapper.LessonStuMapper;
 import team.weilai.studythrough.pojo.dto.LoginDTO;
 import team.weilai.studythrough.pojo.LessonStu;
+import team.weilai.studythrough.pojo.vo.LessonGetVO;
 import team.weilai.studythrough.pojo.vo.MessageVO;
 import team.weilai.studythrough.pojo.vo.Result;
 import team.weilai.studythrough.pojo.vo.UserVO;
+import team.weilai.studythrough.service.LessonService;
 import team.weilai.studythrough.service.MessageService;
 import team.weilai.studythrough.service.UserService;
 import team.weilai.studythrough.util.CommonUtils;
@@ -41,6 +43,8 @@ public class UserController {
     private LessonStuMapper lessonStuMapper;
     @Resource
     private MessageService messageService;
+    @Resource
+    private LessonService lessonService;
 
 
     @PostMapping("/login")
@@ -105,6 +109,12 @@ public class UserController {
     @ApiOperation("获取个人信息")
     public Result<UserVO> getProfile() {
         return userService.getProfile();
+    }
+
+    @GetMapping("/getLesson")
+    @ApiOperation("查询课程信息")
+    public Result<LessonGetVO> getLesson(@NotNull Long lessonId) {
+        return lessonService.getLesson(lessonId);
     }
 
 }

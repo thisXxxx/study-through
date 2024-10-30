@@ -6,13 +6,13 @@ import java.util.Date;
 
 /**
  * @author gwj
- * @date 2024/10/25 17:01
+ * @date 2024/10/26 9:43
  */
 @Data
-public class MessageVO {
-    private Long messageId;
-    private String messageText;
+public class LessonGetVO {
+    private String lessonName;
     private String name;
-    private String username;
+    private String coverUrl;
     private Date createTime;
+    private Date endTime;
 }

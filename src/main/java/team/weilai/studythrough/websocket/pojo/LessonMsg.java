@@ -14,6 +14,7 @@ public class LessonMsg {
     private Long fromUserId;
     private String username;
     private String msg;
+    private Long noRead;
     /**
      * 0：聊天
      */

@@ -7,10 +7,11 @@
     <select id="selectChat" resultType="team.weilai.studythrough.pojo.vo.MessageVO">
         select m.message_id,
                m.message_text,
+               u.name,
                u.username,
                m.create_time
         from message m
-        join user on u.user_id = m.from_user
-        where lesson_id = #{lessonId}
+        join user u on u.user_id = m.from_user
+        where m.lesson_id = #{lessonId}
     </select>
 </mapper>

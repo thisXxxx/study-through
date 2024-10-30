@@ -10,6 +10,7 @@ import team.weilai.studythrough.StudyThroughApplication;
 import team.weilai.studythrough.util.MinioUtil;
 
 import javax.annotation.Resource;
+import java.util.UUID;
 
 @SpringBootTest(classes = StudyThroughApplication.class,webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class StudyThroughApplicationTests {
@@ -23,6 +24,11 @@ class StudyThroughApplicationTests {
     void contextLoads() {
         String projectUrl = System.getProperty("user.dir").replaceAll("\\\\", "/");
         System.out.println(projectUrl);
+    }
+
+    @Test
+    void test() {
+        System.out.println(UUID.randomUUID().toString().substring(0,16));
     }
 
 }

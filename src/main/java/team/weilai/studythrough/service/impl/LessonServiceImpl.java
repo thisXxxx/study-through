@@ -14,6 +14,7 @@ import team.weilai.studythrough.pojo.dto.ArgDTO;
 import team.weilai.studythrough.pojo.dto.LessonDTO;
 import team.weilai.studythrough.pojo.Doc;
 import team.weilai.studythrough.pojo.Lesson;
+import team.weilai.studythrough.pojo.vo.LessonGetVO;
 import team.weilai.studythrough.pojo.vo.LessonVO;
 import team.weilai.studythrough.pojo.vo.Result;
 import team.weilai.studythrough.service.LessonService;
@@ -72,5 +73,14 @@ public class LessonServiceImpl extends ServiceImpl<LessonMapper, Lesson>
         Page<LessonVO> page = new Page<>(argDTO.getPageNum(), argDTO.getPageSize());
         lessonMapper.selectLesson(page,argDTO.getName());
         return Result.ok(page);
+    }
+
+    @Override
+    public Result<LessonGetVO> getLesson(Long lessonId) {
+        LessonGetVO lessonGetVO = lessonMapper.selectLes(lessonId);
+        if (lessonGetVO == null) {
+            return Result.fail(StatusCodeEnum.DATA_EMPTY);
+        }
+        return Result.ok(lessonGetVO);
     }
 }

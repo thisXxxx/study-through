@@ -12,4 +12,7 @@ public class RedisConstants {
     public static final String MD5 = "md5:";
     public static final String CHUNKS = ":chunks";
     public static final String OVER = ":over";
+
+    public static final String UNREAD = "unread:";
+    public static final String FIRST_MESSAGE = ":first_message";
 }
