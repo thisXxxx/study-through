@@ -6,9 +6,9 @@ import com.alibaba.fastjson.JSONObject;
 import com.google.gson.Gson;
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.*;
-import team.weilai.studythrough.websocket.pojo.JsonParse;
-import team.weilai.studythrough.websocket.pojo.RoleContent;
-import team.weilai.studythrough.websocket.pojo.Text;
+import team.weilai.studythrough.websocket.pojo.model.JsonParse;
+import team.weilai.studythrough.websocket.pojo.model.RoleContent;
+import team.weilai.studythrough.websocket.pojo.model.Text;
 
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
@@ -22,14 +22,14 @@ import java.util.concurrent.ConcurrentHashMap;
 /**
  * 与大模型建立Socket连接
  *
- * @author hanyiming
+ * @author gwj
  */
 @Slf4j
 public class BigModelNew extends WebSocketListener {
 
     public static final String appid = "3ab592db";
 
-    //public static List<RoleContent> historyList = new ArrayList<>(); // 对话历史存储集合
+    // 对话历史存储集合
     public static Map<Long,List<RoleContent>> hisMap = new ConcurrentHashMap<>();
 
     public static String totalAnswer = ""; // 大模型的答案汇总
@@ -75,11 +75,11 @@ public class BigModelNew extends WebSocketListener {
     }
 
     // 线程来发送参数
-    class MyThread extends Thread {
+    class ModelThread extends Thread {
         private WebSocket webSocket;
         private Long userId;
 
-        public MyThread(WebSocket webSocket,Long userId) {
+        public ModelThread(WebSocket webSocket, Long userId) {
             this.webSocket = webSocket;
             this.userId = userId;
         }
@@ -148,28 +148,29 @@ public class BigModelNew extends WebSocketListener {
     public void onOpen(WebSocket webSocket, Response response) {
         super.onOpen(webSocket, response);
         log.info("上线");
-        MyThread myThread = new MyThread(webSocket,userId);
-        myThread.start();
+        ModelThread modelThread = new ModelThread(webSocket,userId);
+        modelThread.start();
     }
 
     @Override
     public void onMessage(WebSocket webSocket, String text) {
-        // System.out.println(userId + "用来区分那个用户的结果" + text);
         JsonParse json = gson.fromJson(text, JsonParse.class);
         if (json.getHeader().getCode() != 0) {
-            System.out.println("发生错误，错误码为：" + json.getHeader().getCode());
-            System.out.println("本次请求的sid为：" + json.getHeader().getSid());
-            System.out.println(json);
+            log.error("发生错误，错误码为：{} sid为：{}", json.getHeader().getCode(),json.getHeader().getSid());
+            //System.out.println(json);
             webSocket.close(1000, "");
         }
         List<Text> textList = json.getPayload().getChoices().getText();
+        int status = json.getHeader().getStatus();
         for (Text temp : textList) {
-            // 在此处给前端页面发送回答信息，如有存储问答需求，请在此处存储回答信息
-            ModelChatEndpoint.sendMsgByUserId(userId,temp.getContent());
+            // 向客户端发送回答信息，如有存储问答需求，在此处存储
+            String msg = temp.getContent();
+            if (status == 2) msg += "END";
+            ModelChatEndpoint.sendMsgByUserId(userId,msg);
 
             totalAnswer = totalAnswer + temp.getContent();
         }
-        if (json.getHeader().getStatus() == 2) {
+        if (status == 2) {
             // 可以关闭连接，释放资源
             if (canAddHistory()) {
                 RoleContent roleContent = new RoleContent();

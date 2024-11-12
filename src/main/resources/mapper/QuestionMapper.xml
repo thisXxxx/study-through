@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="team.weilai.studythrough.mapper.QuestionMapper">
+
+    <resultMap id="BaseResultMap" type="team.weilai.studythrough.pojo.exam.Question">
+            <id property="questionId" column="question_id" jdbcType="BIGINT"/>
+            <result property="questionType" column="question_type" jdbcType="TINYINT"/>
+            <result property="questionLevel" column="question_level" jdbcType="TINYINT"/>
+            <result property="questionContent" column="question_content" jdbcType="VARCHAR"/>
+            <result property="questionSubject" column="question_subject" jdbcType="VARCHAR"/>
+            <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+            <result property="questionAnalysis" column="question_analysis" jdbcType="VARCHAR"/>
+            <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        question_id,question_type,question_level,
+        question_content,question_subject,create_time,
+        question_analysis,update_time
+    </sql>
+    <select id="selectQuestion" resultType="team.weilai.studythrough.pojo.exam.vo.QuestionVO">
+        select question_id,
+            question_type,
+            question_level,
+            question_subject,
+            question_content,
+            create_time
+        from question
+        <where>
+            <if test="dto.type != null">
+                question_type = #{dto.type}
+            </if>
+            <if test="dto.subject != null and dto.subject != ''">
+                and question_subject = #{dto.subject}
+            </if>
+            <if test="dto.level != null">
+                and question_level = #{dto.level}
+            </if>
+        </where>
+    </select>
+</mapper>

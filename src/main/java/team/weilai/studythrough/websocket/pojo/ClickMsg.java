@@ -4,10 +4,8 @@ import lombok.Data;
 
 /**
  * @author gwj
- * @date 2024/10/29 21:14
+ * @date 2024/11/8 15:55
  */
 @Data
-public class Text {
-    String role;
-    String content;
+public class ClickMsg {
 }

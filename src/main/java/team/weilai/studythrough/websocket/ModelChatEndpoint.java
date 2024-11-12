@@ -108,7 +108,4 @@ public class ModelChatEndpoint {
             wsMap.get(userId).onClose();
         }
     }
-
-
-
 }

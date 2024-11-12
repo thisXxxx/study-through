@@ -1,7 +1,8 @@
-package team.weilai.studythrough.websocket.pojo;
+package team.weilai.studythrough.websocket.pojo.model;
 
 import lombok.Data;
 import lombok.ToString;
+import team.weilai.studythrough.websocket.pojo.model.Choices;
 
 /**
  * @author gwj

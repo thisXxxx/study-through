@@ -84,5 +84,12 @@ public class AdminController {
         return userService.delUsers(ids);
     }
 
+    @PostMapping("/aiKnow")
+    @ApiOperation("定制ai问答")
+    @ApiIgnore
+    public Result<Void> aiKnow(@RequestPart("file")MultipartFile file) {
+        return adminService.aiKnow(file);
+    }
+
 
 }

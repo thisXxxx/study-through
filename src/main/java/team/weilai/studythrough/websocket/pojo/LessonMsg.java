@@ -17,6 +17,7 @@ public class LessonMsg {
     private Long noRead;
     /**
      * 0：聊天
+     * 1：签到
      */
     private Integer type;
     private Date createTime;

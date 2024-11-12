@@ -13,6 +13,7 @@ import team.weilai.studythrough.pojo.Message;
 import team.weilai.studythrough.service.MessageService;
 import team.weilai.studythrough.websocket.config.GetUserConfigurator;
 import team.weilai.studythrough.websocket.pojo.LessonMsg;
+import team.weilai.studythrough.websocket.pojo.SignMsg;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
@@ -98,31 +99,39 @@ public class LessonEndpoint {
     public void onMessage(Session session,String message) {
         LessonMsg msg = JSONUtil.toBean(message, LessonMsg.class);
         Integer type = msg.getType();
+        Long lessonId = msg.getLessonId();
         if (type == 0) {
             msg.setFromUserId(userId);
             msg.setUsername(username);
             msg.setCreateTime(new Date());
-            Long lessonId = msg.getLessonId();
             /*String key = UNREAD + userId + ":" + lessonId;
             Long count = redisTemplate.opsForValue().increment(key);
             msg.setNoRead(count);*/
 
             String mess = JSONUtil.toJsonStr(msg);
-            Set<Session> set = map.get(lessonId);
-            for (Session sess : set) {
-                try {
-                    if (sess.isOpen()) {
-                        sess.getBasicRemote().sendText(mess);
-                    }
-                } catch (IOException e) {
-                    log.error("发送消息失败，{}",e.getMessage());
-                }
-            }
+            sendMsg(lessonId, mess);
             //存数据库
             Message m = new Message(msg);
             boolean save = messageService.save(m);
             if (!save) {
                 log.error("1消息存储数据库失败");
+            }
+        }
+        //发送签到消息
+        if (type == 1) {
+            sendMsg(lessonId, msg.getMsg());
+        }
+    }
+
+    private void sendMsg(Long lessonId, String mess) {
+        Set<Session> set = map.get(lessonId);
+        for (Session sess : set) {
+            try {
+                if (sess.isOpen()) {
+                    sess.getBasicRemote().sendText(mess);
+                }
+            } catch (IOException e) {
+                log.error("发送消息失败，{}",e.getMessage());
             }
         }
     }

@@ -1,4 +1,4 @@
-package team.weilai.studythrough.websocket.pojo;
+package team.weilai.studythrough.websocket.pojo.model;
 
 import lombok.Data;
 

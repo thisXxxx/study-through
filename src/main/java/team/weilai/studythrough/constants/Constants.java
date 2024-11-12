@@ -15,4 +15,10 @@ public class Constants {
 
     public static final String PRO_URL = System.getProperty("user.dir").replaceAll("\\\\", "/");
     public static final String TEMP = "/file/tmp/";
+
+    public static final Integer SUCCESS = 0;
+    public static final Integer TIME_EXCEED = 1;
+    public static final Integer DISTANT_EXCEED = 2;
+
+    public static final Integer CHOOSE = 0;
 }

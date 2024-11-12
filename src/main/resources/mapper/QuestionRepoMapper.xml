@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="team.weilai.studythrough.mapper.QuestionRepoMapper">
+
+    <resultMap id="BaseResultMap" type="team.weilai.studythrough.pojo.exam.QuestionRepo">
+            <id property="questionRepoId" column="question_repo_id" jdbcType="BIGINT"/>
+            <result property="questionId" column="question_id" jdbcType="BIGINT"/>
+            <result property="repoId" column="repo_id" jdbcType="BIGINT"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        question_repo_id,question_id,repo_id
+    </sql>
+</mapper>

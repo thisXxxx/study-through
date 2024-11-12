@@ -45,3 +45,6 @@ model:
   apiKey: cb1730e8ef787e92b2c2f3c9c6dd37da
   apiSecret: OWE5OWNiYjkzNDk3MWNkM2EzYWNhMDc5
   appId: 3ab592db
+  uploadUrl: https://spark-api.xf-yun.com/v4.0/chat
+  apiPassword: dyMLARXFFviWOEOMVteA:jTTVtpHaimgbrLIbcunR
+
