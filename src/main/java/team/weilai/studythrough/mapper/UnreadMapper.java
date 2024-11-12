@@ -8,6 +8,5 @@ import team.weilai.studythrough.pojo.Unread;
  * @author gwj
  * @date 2024/10/26 9:11
  */
-@Mapper
 public interface UnreadMapper extends BaseMapper<Unread> {
 }

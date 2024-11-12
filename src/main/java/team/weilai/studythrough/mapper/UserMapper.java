@@ -11,7 +11,6 @@ import team.weilai.studythrough.pojo.vo.UserVO;
  * @author gwj
  * @create 2024/10/9 17:48
  */
-@Mapper
 public interface UserMapper extends BaseMapper<User> {
     Page<UserVO> selectUsers(@Param("page") Page<UserVO> page,
                              @Param("name")String name,

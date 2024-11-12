@@ -8,6 +8,5 @@ import team.weilai.studythrough.pojo.Doc;
  * @author gwj
  * @create 2024/10/11 17:06
  */
-@Mapper
 public interface DocMapper extends BaseMapper<Doc> {
 }

@@ -11,7 +11,6 @@ import team.weilai.studythrough.pojo.vo.MessageVO;
  * @author gwj
  * @date 2024/10/24 20:21
  */
-@Mapper
 public interface MessageMapper extends BaseMapper<Message> {
     Page<MessageVO> selectChat(@Param("page") Page<MessageVO> page, @Param("lessonId") Long lessonId);
 }

@@ -11,7 +11,6 @@ import team.weilai.studythrough.pojo.vo.LessonStuVO;
  * @author gwj
  * @create 2024/10/11 15:16
  */
-@Mapper
 public interface LessonStuMapper extends BaseMapper<LessonStu> {
     Page<LessonStuVO> selectLesson(@Param("page") Page<LessonStuVO> page,
                                    @Param("name") String name,
