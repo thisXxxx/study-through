@@ -18,4 +18,11 @@ public class DateUtil {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(YEAR_DATE_FORMAT);
         return simpleDateFormat.format(new Date());
     }
+
+    public static long between(Date start, Date end) {
+        long st = start.getTime();
+        long en = end.getTime();
+        long diff = en - st;
+        return diff / (60 * 1000);
+    }
 }

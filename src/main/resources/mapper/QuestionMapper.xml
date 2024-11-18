@@ -15,6 +15,29 @@
             <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
     </resultMap>
 
+    <resultMap id="Detail" type="team.weilai.studythrough.pojo.exam.vo.QuestionDetailVO">
+        <id property="questionId" column="question_id"/>
+        <result property="questionContent" column="question_content"/>
+        <result property="questionLevel" column="question_level"/>
+        <result property="questionSubject" column="question_subject"/>
+        <result property="questionType" column="question_type"/>
+        <result property="createTime" column="create_time"/>
+        <collection property="ansList" ofType="QuestionAns">
+            <id property="ansId" column="ans_id"/>
+            <result property="questionId" column="question_id"/>
+            <result property="ansContent" column="ans_content"/>
+            <result property="isRight" column="is_right"/>
+        </collection>
+    </resultMap>
+
+    <resultMap id="Common" type="team.weilai.studythrough.pojo.exam.vo.QuCommonVO">
+        <result property="questionContent" column="question_content"/>
+        <result property="questionType" column="question_type"/>
+        <collection property="ansList" ofType="QuestionAns">
+            <result property="ansContent" column="ans_content"/>
+        </collection>
+    </resultMap>
+
     <sql id="Base_Column_List">
         question_id,question_type,question_level,
         question_content,question_subject,create_time,
@@ -39,5 +62,31 @@
                 and question_level = #{dto.level}
             </if>
         </where>
+    </select>
+    <select id="selectDetail" resultMap="Detail">
+        select q.question_id,
+               q.question_level,
+               q.question_subject,
+               q.question_type,
+               q.question_content,
+               q.create_time,
+               a.ans_id,
+               a.ans_content,
+               a.is_right
+        from question q
+        left join question_ans a on q.question_id = a.question_id
+        where q.question_id = #{questionId}
+    </select>
+    <select id="preview" resultMap="Common">
+        select q.question_content,
+               q.question_type,
+               a.ans_content
+        from question q
+        left join question_ans a on q.question_id = a.question_id
+        where q.question_id in
+        <foreach collection="ids" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+
     </select>
 </mapper>

@@ -2,6 +2,9 @@ package team.weilai.studythrough.service;
 
 import team.weilai.studythrough.pojo.exam.Repo;
 import com.baomidou.mybatisplus.extension.service.IService;
+import team.weilai.studythrough.pojo.vo.Result;
+
+import java.util.List;
 
 /**
 * @author 86159
@@ -10,4 +13,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
 */
 public interface RepoService extends IService<Repo> {
 
+    Result<Void> add(List<Long> ids, Long repoId);
 }

@@ -1,15 +1,20 @@
 package team.weilai.studythrough.controller;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.jetbrains.annotations.NotNull;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.*;
+import team.weilai.studythrough.enums.StatusCodeEnum;
 import team.weilai.studythrough.pojo.exam.Repo;
 import team.weilai.studythrough.pojo.vo.Result;
 import team.weilai.studythrough.service.RepoService;
+import team.weilai.studythrough.util.CommonUtils;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * @author gwj
@@ -25,11 +30,39 @@ public class RepoController {
 
 
     @PostMapping("/add")
-    @ApiOperation("添加题库")
+    @ApiOperation("创建题库")
+    @PreAuthorize("hasAuthority('1')")
     public Result<Void> add(String repoTitle,String subject) {
-        boolean save = repoService.save(new Repo(repoTitle, subject));
+        Long userId = CommonUtils.getUserId();
+        boolean save = repoService.save(new Repo(repoTitle, subject,userId));
         return save ? Result.ok() : Result.fail();
     }
+
+    @PostMapping("/addQuestion")
+    @ApiOperation("向题库中添加题目")
+    @PreAuthorize("hasAuthority('1')")
+    public Result<Void> addQuestion(@RequestParam List<Long> ids, Long repoId) {
+        if (ids == null || ids.isEmpty()) {
+            return Result.fail(StatusCodeEnum.VALID_ERROR);
+        }
+        return repoService.add(ids,repoId);
+    }
+
+    @GetMapping("/repoSelf")
+    @ApiOperation("查看自己创建的题库")
+    @PreAuthorize("hasAuthority('1')")
+    public Result<Page<Repo>> repoSelf(@NotNull Integer pageNum, @NotNull Integer pageSize) {
+        if (pageNum <= 0 || pageSize <= 0) {
+            return Result.fail(StatusCodeEnum.VALID_ERROR);
+        }
+        Page<Repo> page = new Page<>(pageNum,pageSize);
+        repoService.page(page,new QueryWrapper<Repo>()
+                .eq("create_by",CommonUtils.getUserId())
+                .select("repo_id","repo_title","subject","create_time"));
+        return Result.ok(page);
+    }
+
+
 
 
 }

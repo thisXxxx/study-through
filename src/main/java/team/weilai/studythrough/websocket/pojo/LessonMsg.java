@@ -18,6 +18,7 @@ public class LessonMsg {
     /**
      * 0：聊天
      * 1：签到
+     * 2：考试
      */
     private Integer type;
     private Date createTime;

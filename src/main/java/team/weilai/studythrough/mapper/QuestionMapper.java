@@ -5,7 +5,11 @@ import org.apache.ibatis.annotations.Param;
 import team.weilai.studythrough.pojo.exam.Question;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import team.weilai.studythrough.pojo.exam.dto.QuestionQueryDTO;
+import team.weilai.studythrough.pojo.exam.vo.QuCommonVO;
+import team.weilai.studythrough.pojo.exam.vo.QuestionDetailVO;
 import team.weilai.studythrough.pojo.exam.vo.QuestionVO;
+
+import java.util.List;
 
 /**
 * @author 86159
@@ -17,6 +21,11 @@ public interface QuestionMapper extends BaseMapper<Question> {
 
     Page<QuestionVO> selectQuestion(@Param("page") Page<QuestionVO> page,
                                     @Param("dto") QuestionQueryDTO queryDTO);
+
+    QuestionDetailVO selectDetail(Long questionId);
+
+    List<QuCommonVO> preview(@Param("ids") List<Long> ids);
+
 }
 
 

@@ -3,17 +3,17 @@ package team.weilai.studythrough.websocket;
 import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Component;
 import team.weilai.studythrough.mapper.LessonMapper;
+import team.weilai.studythrough.mapper.LessonMessageMapper;
 import team.weilai.studythrough.mapper.LessonStuMapper;
 import team.weilai.studythrough.pojo.Lesson;
 import team.weilai.studythrough.pojo.LessonStu;
 import team.weilai.studythrough.pojo.Message;
+import team.weilai.studythrough.pojo.exam.LessonMessage;
 import team.weilai.studythrough.service.MessageService;
 import team.weilai.studythrough.websocket.config.GetUserConfigurator;
 import team.weilai.studythrough.websocket.pojo.LessonMsg;
-import team.weilai.studythrough.websocket.pojo.SignMsg;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
@@ -22,8 +22,6 @@ import javax.websocket.server.ServerEndpoint;
 import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
-
-import static team.weilai.studythrough.constants.RedisConstants.UNREAD;
 
 /**
  * @author gwj
@@ -38,7 +36,7 @@ public class LessonEndpoint {
     private static LessonStuMapper lessonStuMapper;
     private static MessageService messageService;
     private static LessonMapper lessonMapper;
-    private static StringRedisTemplate redisTemplate;
+    private static LessonMessageMapper lessonMessageMapper;
     private Long userId;
     private String username;
     private Integer role;
@@ -50,14 +48,14 @@ public class LessonEndpoint {
     @Resource
     private MessageService service;
     @Resource
-    private StringRedisTemplate stringRedisTemplate;
+    private LessonMessageMapper lmMapper;
 
     @PostConstruct
     public void init() {
         lessonStuMapper = mapper;
         messageService = service;
         lessonMapper = lMapper;
-        redisTemplate = stringRedisTemplate;
+        lessonMessageMapper = lmMapper;
     }
 
 
@@ -117,9 +115,11 @@ public class LessonEndpoint {
                 log.error("1消息存储数据库失败");
             }
         }
-        //发送签到消息
-        if (type == 1) {
-            sendMsg(lessonId, msg.getMsg());
+        //发送签到消息和考试消息
+        if (type == 1 || type == 2) {
+            String mess = msg.getMsg();
+            sendMsg(lessonId, mess);
+            lessonMessageMapper.insert(new LessonMessage(type,mess));
         }
     }
 

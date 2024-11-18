@@ -28,5 +28,4 @@ public class QuestionDTO {
 
     private Long repoId;
     private String questionAnalysis;
-    private List<QuestionAns> ansList;
 }

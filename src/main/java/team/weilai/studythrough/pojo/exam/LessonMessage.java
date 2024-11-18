@@ -11,41 +11,38 @@ import lombok.NoArgsConstructor;
 
 /**
  *
- * @TableName repo
+ * @TableName lesson_message
  */
-@TableName(value ="repo")
+@TableName(value ="lesson_message")
 @Data
 @NoArgsConstructor
-public class Repo implements Serializable {
+public class LessonMessage implements Serializable {
     /**
      *
      */
     @TableId(type = IdType.AUTO)
-    private Long repoId;
+    private Long lessonMessageId;
+
+    /**
+     * 1：签到   2：考试
+     */
+    private Integer type;
 
     /**
      *
      */
-    private String repoTitle;
-
-    /**
-     *
-     */
-    private String subject;
+    private String content;
 
     /**
      *
      */
     private Date createTime;
 
-    private Long createBy;
-
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;
 
-    public Repo(String repoTitle,String subject,Long createBy) {
-        this.repoTitle = repoTitle;
-        this.subject = subject;
-        this.createBy = createBy;
+    public LessonMessage(Integer type,String content) {
+        this.type = type;
+        this.content = content;
     }
 }

@@ -4,10 +4,15 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.transaction.annotation.Transactional;
 import team.weilai.studythrough.pojo.exam.Question;
 import com.baomidou.mybatisplus.extension.service.IService;
+import team.weilai.studythrough.pojo.exam.QuestionAns;
 import team.weilai.studythrough.pojo.exam.dto.QuestionDTO;
 import team.weilai.studythrough.pojo.exam.dto.QuestionQueryDTO;
+import team.weilai.studythrough.pojo.exam.vo.PaperReviewVO;
+import team.weilai.studythrough.pojo.exam.vo.QuestionDetailVO;
 import team.weilai.studythrough.pojo.exam.vo.QuestionVO;
 import team.weilai.studythrough.pojo.vo.Result;
+
+import java.util.List;
 
 /**
 * @author 86159
@@ -17,7 +22,11 @@ import team.weilai.studythrough.pojo.vo.Result;
 public interface QuestionService extends IService<Question> {
 
     @Transactional(rollbackFor = Exception.class)
-    Result<Void> add(QuestionDTO questionDTO);
+    Result<Void> add(QuestionDTO questionDTO, List<QuestionAns> ansList);
 
     Result<Page<QuestionVO>> select(QuestionQueryDTO queryDTO);
+
+    Result<QuestionDetailVO> getDetail(Long questionId);
+
+    Result<PaperReviewVO> preview(List<Long> ids);
 }

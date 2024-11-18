@@ -10,6 +10,9 @@ import team.weilai.studythrough.pojo.exam.QuestionAns;
 import team.weilai.studythrough.pojo.exam.QuestionRepo;
 import team.weilai.studythrough.pojo.exam.dto.QuestionDTO;
 import team.weilai.studythrough.pojo.exam.dto.QuestionQueryDTO;
+import team.weilai.studythrough.pojo.exam.vo.PaperReviewVO;
+import team.weilai.studythrough.pojo.exam.vo.QuCommonVO;
+import team.weilai.studythrough.pojo.exam.vo.QuestionDetailVO;
 import team.weilai.studythrough.pojo.exam.vo.QuestionVO;
 import team.weilai.studythrough.pojo.vo.Result;
 import team.weilai.studythrough.service.QuestionService;
@@ -17,11 +20,12 @@ import team.weilai.studythrough.mapper.QuestionMapper;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-import static team.weilai.studythrough.constants.Constants.CHOOSE;
+import static team.weilai.studythrough.constants.Constants.NO_CHOOSE;
 
 /**
 * @author 86159
@@ -41,12 +45,11 @@ public class QuestionServiceImpl extends ServiceImpl<QuestionMapper, Question>
 
 
     @Override
-    public Result<Void> add(QuestionDTO questionDTO) {
+    public Result<Void> add(QuestionDTO questionDTO,List<QuestionAns> ansList) {
         Question question = BeanUtil.copyProperties(questionDTO, Question.class);
         save(question);
         Long questionId = question.getQuestionId();
-        if (Objects.equals(question.getQuestionType(), CHOOSE)) {
-            List<QuestionAns> ansList = questionDTO.getAnsList();
+        if (!Objects.equals(question.getQuestionType(), NO_CHOOSE)) {
             if (ansList == null || ansList.isEmpty()) {
                 return Result.fail();
             }
@@ -69,6 +72,39 @@ public class QuestionServiceImpl extends ServiceImpl<QuestionMapper, Question>
         Page<QuestionVO> page = new Page<>(queryDTO.getPageNum(),queryDTO.getPageSize());
         questionMapper.selectQuestion(page,queryDTO);
         return Result.ok(page);
+    }
+
+    @Override
+    public Result<QuestionDetailVO> getDetail(Long questionId) {
+        QuestionDetailVO questionDetailVO =  questionMapper.selectDetail(questionId);
+        return Result.ok(questionDetailVO);
+    }
+
+    @Override
+    public Result<PaperReviewVO> preview(List<Long> ids) {
+        List<QuCommonVO> list = questionMapper.preview(ids);
+        List<QuCommonVO> radioList = new ArrayList<>();
+        List<QuCommonVO> multiList = new ArrayList<>();
+        List<QuCommonVO> judgeList = new ArrayList<>();
+        List<QuCommonVO> bigList = new ArrayList<>();
+        for (QuCommonVO quCommonVO : list) {
+            Integer type = quCommonVO.getQuestionType();
+            switch (type) {
+                case 0 :
+                    radioList.add(quCommonVO);
+                    break;
+                case 1:
+                    multiList.add(quCommonVO);
+                    break;
+                case 2:
+                    judgeList.add(quCommonVO);
+                    break;
+                case 3:
+                    bigList.add(quCommonVO);
+            }
+        }
+        PaperReviewVO reviewVO = new PaperReviewVO(radioList, multiList, judgeList, bigList);
+        return Result.ok(reviewVO);
     }
 }
 

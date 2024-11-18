@@ -5,47 +5,41 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import java.io.Serializable;
-import java.util.Date;
+
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
+ * 试卷题目关联表
  *
- * @TableName repo
+ * @TableName exam_question
  */
-@TableName(value ="repo")
+@TableName(value ="exam_question")
 @Data
 @NoArgsConstructor
-public class Repo implements Serializable {
+public class ExamQuestion implements Serializable {
     /**
      *
      */
     @TableId(type = IdType.AUTO)
-    private Long repoId;
+    private Long examQuestionId;
 
     /**
      *
      */
-    private String repoTitle;
+    private Long examId;
 
     /**
      *
      */
-    private String subject;
-
-    /**
-     *
-     */
-    private Date createTime;
-
-    private Long createBy;
+    private Long questionId;
 
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;
 
-    public Repo(String repoTitle,String subject,Long createBy) {
-        this.repoTitle = repoTitle;
-        this.subject = subject;
-        this.createBy = createBy;
+    public ExamQuestion(Long examId,Long questionId) {
+        this.examId = examId;
+        this.questionId = questionId;
     }
 }

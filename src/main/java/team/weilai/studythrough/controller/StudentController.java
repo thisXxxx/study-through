@@ -9,8 +9,10 @@ import org.springframework.web.bind.annotation.*;
 import team.weilai.studythrough.enums.StatusCodeEnum;
 import team.weilai.studythrough.pojo.dto.ArgDTO;
 import team.weilai.studythrough.pojo.LessonStu;
+import team.weilai.studythrough.pojo.exam.LessonMessage;
 import team.weilai.studythrough.pojo.vo.LessonStuVO;
 import team.weilai.studythrough.pojo.vo.Result;
+import team.weilai.studythrough.service.LessonMessageService;
 import team.weilai.studythrough.service.StudentService;
 import team.weilai.studythrough.websocket.pojo.AuditStu;
 
@@ -29,6 +31,8 @@ public class StudentController {
 
     @Resource
     private StudentService studentService;
+    @Resource
+    private LessonMessageService lessonMessageService;
 
     @PostMapping("/join")
     @ApiOperation("学生加入课程")
@@ -49,5 +53,18 @@ public class StudentController {
             return Result.fail(StatusCodeEnum.VALID_ERROR);
         }
         return studentService.getRecords(pageNum,pageSize);
+    }
+
+    @GetMapping("/getMessage")
+    @ApiOperation("学生查看课程消息")
+    public Result<Page<LessonMessage>> getMessage(@NotNull Integer pageNum,
+                                                  @NotNull Integer pageSize,
+                                                  @NotNull Long lessonId) {
+        if (pageNum <= 0 || pageSize <= 0) {
+            return Result.fail(StatusCodeEnum.VALID_ERROR);
+        }
+        Page<LessonMessage> page = new Page<>(pageNum,pageSize);
+        lessonMessageService.query().eq("lesson_id",lessonId).page(page);
+        return Result.ok(page);
     }
 }

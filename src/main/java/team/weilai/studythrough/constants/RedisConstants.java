@@ -17,4 +17,7 @@ public class RedisConstants {
     public static final String FIRST_MESSAGE = ":first_message";
 
     public static final String SIGN = "sign:";
+
+    public static final String EXAM = "exam:";
+    public static final String EXAM_QUESTION = "exam:question:";
 }

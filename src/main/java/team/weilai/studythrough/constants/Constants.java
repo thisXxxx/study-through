@@ -20,5 +20,5 @@ public class Constants {
     public static final Integer TIME_EXCEED = 1;
     public static final Integer DISTANT_EXCEED = 2;
 
-    public static final Integer CHOOSE = 0;
+    public static final Integer NO_CHOOSE = 3;
 }

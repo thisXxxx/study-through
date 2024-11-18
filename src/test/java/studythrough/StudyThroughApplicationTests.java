@@ -8,16 +8,18 @@ import io.minio.MinioClient;
 import io.minio.ObjectWriteResponse;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import team.weilai.studythrough.StudyThroughApplication;
 import team.weilai.studythrough.config.BigModelConfig;
+import team.weilai.studythrough.util.DateUtil;
 import team.weilai.studythrough.util.HaversineUtil;
 import team.weilai.studythrough.util.MinioUtil;
 import team.weilai.studythrough.websocket.BigModelNew;
 
 import javax.annotation.Resource;
-import java.util.Collections;
-import java.util.UUID;
+import java.text.ParseException;
+import java.util.*;
 
 @SpringBootTest(classes = StudyThroughApplication.class,webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class StudyThroughApplicationTests {
@@ -26,6 +28,8 @@ class StudyThroughApplicationTests {
     private MinioUtil minioUtil;
     @Resource
     private MinioClient minioClient;
+    @Resource
+    private RedisTemplate<String,Object> redisTemplate;
 
     @Test
     void contextLoads() {
@@ -58,6 +62,29 @@ class StudyThroughApplicationTests {
                         })
                         .templateEngine(new FreemarkerTemplateEngine()) // 使用Freemarker引擎模板，默认的是Velocity引擎模板
                         .execute();
+    }
+
+
+    @Test
+    void time() throws ParseException {
+        String ti = "2022-12-1 12:00:12";
+        Date date = DateUtil.parseString(ti);
+        redisTemplate.opsForValue().set("date",date);
+        Object o = redisTemplate.opsForValue().get("date");
+        Date o1 = (Date) o;
+    }
+
+    @Test
+    void list() {
+        /*List<Long> list = new ArrayList<>();
+        list.add(1L);
+        list.add(2L);
+        list.add(3L);
+        redisTemplate.opsForValue().set("test",list);*/
+        Object o = redisTemplate.opsForValue().get("test");
+        List<Long> o1 = (List<Long>) o;
+        System.out.println(o1.get(0));
+
     }
 
 }

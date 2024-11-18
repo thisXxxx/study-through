@@ -1,10 +1,17 @@
 package team.weilai.studythrough.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import team.weilai.studythrough.mapper.QuestionRepoMapper;
+import team.weilai.studythrough.pojo.exam.QuestionRepo;
 import team.weilai.studythrough.pojo.exam.Repo;
+import team.weilai.studythrough.pojo.vo.Result;
 import team.weilai.studythrough.service.RepoService;
 import team.weilai.studythrough.mapper.RepoMapper;
 import org.springframework.stereotype.Service;
+
+import javax.annotation.Resource;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
 * @author 86159
@@ -15,6 +22,18 @@ import org.springframework.stereotype.Service;
 public class RepoServiceImpl extends ServiceImpl<RepoMapper, Repo>
     implements RepoService{
 
+    @Resource
+    private QuestionRepoMapper questionRepoMapper;
+
+
+    @Override
+    public Result<Void> add(List<Long> ids, Long repoId) {
+        List<QuestionRepo> list = ids.stream().map(id ->
+             new QuestionRepo(id, repoId)
+        ).collect(Collectors.toList());
+        questionRepoMapper.insert(list);
+        return Result.ok();
+    }
 }
 
 
