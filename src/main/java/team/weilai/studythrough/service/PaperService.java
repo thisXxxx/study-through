@@ -2,6 +2,7 @@ package team.weilai.studythrough.service;
 
 import team.weilai.studythrough.pojo.exam.Paper;
 import com.baomidou.mybatisplus.extension.service.IService;
+import team.weilai.studythrough.pojo.exam.vo.PaperDetailVO;
 import team.weilai.studythrough.pojo.vo.Result;
 
 /**
@@ -11,5 +12,6 @@ import team.weilai.studythrough.pojo.vo.Result;
 */
 public interface PaperService extends IService<Paper> {
 
-    Result<Void> enter(Long examId,Long lessonId);
+    Result<Long> enter(Long examId,Long lessonId);
+
 }

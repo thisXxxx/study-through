@@ -1,4 +1,4 @@
-package team.weilai.studythrough.controller;
+package team.weilai.studythrough.controller.exam;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;

@@ -7,6 +7,8 @@ import lombok.NoArgsConstructor;
 import java.util.Date;
 
 /**
+ * 在redis中的考试信息，方便创建试卷用
+ *
  * @author gwj
  * @date 2024/11/18 19:37
  */

@@ -14,7 +14,7 @@ import java.util.Date;
  * @date 2024/11/7 20:35
  */
 @Data
-@TableName("sign_stu")
+@TableName("st_sign_stu")
 @NoArgsConstructor
 @AllArgsConstructor
 public class SignStu {

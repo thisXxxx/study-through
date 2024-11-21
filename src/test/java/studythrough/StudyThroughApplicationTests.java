@@ -12,6 +12,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import team.weilai.studythrough.StudyThroughApplication;
 import team.weilai.studythrough.config.BigModelConfig;
+import team.weilai.studythrough.pojo.exam.ExamQuestion;
 import team.weilai.studythrough.util.DateUtil;
 import team.weilai.studythrough.util.HaversineUtil;
 import team.weilai.studythrough.util.MinioUtil;
@@ -76,15 +77,19 @@ class StudyThroughApplicationTests {
 
     @Test
     void list() {
-        /*List<Long> list = new ArrayList<>();
-        list.add(1L);
-        list.add(2L);
-        list.add(3L);
-        redisTemplate.opsForValue().set("test",list);*/
+//        List<ExamQuestion> list = new ArrayList<>();
+//        ExamQuestion e1 = new ExamQuestion(1L, 1L, 3);
+//        ExamQuestion e2 = new ExamQuestion(1L, 2L, 1);
+//        ExamQuestion e3 = new ExamQuestion(1L, 4L, 2);
+//        list.add(e1);
+//        list.add(e2);
+//        list.add(e3);
+//        redisTemplate.opsForValue().set("test",list);
         Object o = redisTemplate.opsForValue().get("test");
-        List<Long> o1 = (List<Long>) o;
-        System.out.println(o1.get(0));
-
+        List<ExamQuestion> o1 = (List<ExamQuestion>) o;
+        for (ExamQuestion examQuestion : o1) {
+            System.out.println(examQuestion);
+        }
     }
 
 }

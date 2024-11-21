@@ -8,20 +8,20 @@ import java.io.Serializable;
 import lombok.Data;
 
 /**
- * 
- * @TableName question_ans
+ *
+ * @TableName st_question_ans
  */
-@TableName(value ="question_ans")
+@TableName(value ="st_question_ans")
 @Data
 public class QuestionAns implements Serializable {
     /**
-     * 
+     *
      */
     @TableId(type = IdType.AUTO)
     private Long ansId;
 
     /**
-     * 
+     *
      */
     private Long questionId;
 
@@ -31,7 +31,7 @@ public class QuestionAns implements Serializable {
     private Integer isRight;
 
     /**
-     * 
+     *
      */
     private String ansContent;
 

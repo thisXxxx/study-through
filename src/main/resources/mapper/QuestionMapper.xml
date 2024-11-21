@@ -38,6 +38,16 @@
         </collection>
     </resultMap>
 
+    <resultMap id="PaperQu" type="team.weilai.studythrough.pojo.exam.vo.PaperQuVO">
+        <result property="questionContent" column="question_content"/>
+        <result property="questionType" column="question_type"/>
+        <result property="answer" column="answer"/>
+        <collection property="ansList" ofType="QuestionAns">
+            <id property="ansId" column="ans_id"/>
+            <result property="ansContent" column="ans_content"/>
+        </collection>
+    </resultMap>
+
     <sql id="Base_Column_List">
         question_id,question_type,question_level,
         question_content,question_subject,create_time,
@@ -88,5 +98,17 @@
             #{id}
         </foreach>
 
+    </select>
+
+    <select id="getQu" resultMap="PaperQu">
+        select q.question_content,
+            q.question_type,
+            a.ans_content,
+            a.ans_id,
+            pq.answer
+        from question q
+        left join question_ans a on q.question_id = a.question_id
+        join paper_question pq on pq.question_id = q.question_id
+        where q.question_id = #{questionId} and pq.paper_id = #{paperId}
     </select>
 </mapper>

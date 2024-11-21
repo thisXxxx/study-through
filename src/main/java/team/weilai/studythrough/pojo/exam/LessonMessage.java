@@ -11,9 +11,9 @@ import lombok.NoArgsConstructor;
 
 /**
  *
- * @TableName lesson_message
+ * @TableName st_lesson_message
  */
-@TableName(value ="lesson_message")
+@TableName(value ="st_lesson_message")
 @Data
 @NoArgsConstructor
 public class LessonMessage implements Serializable {

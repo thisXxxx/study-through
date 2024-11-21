@@ -11,9 +11,9 @@ import lombok.NoArgsConstructor;
 
 /**
  *
- * @TableName repo
+ * @TableName st_repo
  */
-@TableName(value ="repo")
+@TableName(value ="st_repo")
 @Data
 @NoArgsConstructor
 public class Repo implements Serializable {

@@ -10,9 +10,9 @@ import lombok.Data;
 
 /**
  * 考试记录
- * @TableName paper
+ * @TableName st_paper
  */
-@TableName(value ="paper")
+@TableName(value ="st_paper")
 @Data
 public class Paper implements Serializable {
     /**

@@ -9,14 +9,14 @@ import java.util.Date;
 import lombok.Data;
 
 /**
- * 
- * @TableName question
+ *
+ * @TableName st_question
  */
-@TableName(value ="question")
+@TableName(value ="st_question")
 @Data
 public class Question implements Serializable {
     /**
-     * 
+     *
      */
     @TableId(type = IdType.AUTO)
     private Long questionId;
@@ -32,17 +32,17 @@ public class Question implements Serializable {
     private Integer questionLevel;
 
     /**
-     * 
+     *
      */
     private String questionContent;
 
     /**
-     * 
+     *
      */
     private String questionSubject;
 
     /**
-     * 
+     *
      */
     private Date createTime;
 
@@ -52,7 +52,7 @@ public class Question implements Serializable {
     private String questionAnalysis;
 
     /**
-     * 
+     *
      */
     private Date updateTime;
 

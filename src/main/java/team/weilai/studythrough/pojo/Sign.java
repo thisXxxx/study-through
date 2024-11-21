@@ -12,7 +12,7 @@ import java.util.Date;
  * @date 2024/11/7 15:28
  */
 @Data
-@TableName("sign")
+@TableName("st_sign")
 public class Sign {
     @TableId(type = IdType.AUTO)
     private Long signId;

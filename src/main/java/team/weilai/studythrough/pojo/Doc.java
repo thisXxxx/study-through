@@ -16,7 +16,7 @@ import java.util.Date;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@TableName("doc")
+@TableName("st_doc")
 public class Doc {
     @TableId(type = IdType.AUTO)
     private Long docId;

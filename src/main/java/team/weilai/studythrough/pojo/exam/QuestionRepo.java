@@ -10,9 +10,9 @@ import lombok.NoArgsConstructor;
 
 /**
  *
- * @TableName question_repo
+ * @TableName st_question_repo
  */
-@TableName(value ="question_repo")
+@TableName(value ="st_question_repo")
 @Data
 @NoArgsConstructor
 public class QuestionRepo implements Serializable {

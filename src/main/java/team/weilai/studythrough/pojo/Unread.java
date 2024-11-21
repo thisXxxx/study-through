@@ -16,7 +16,7 @@ import java.util.Date;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@TableName("unread")
+@TableName("st_unread")
 public class Unread {
     @TableId(type = IdType.AUTO)
     private Long unreadId;

@@ -16,7 +16,7 @@ import java.util.Date;
  * @date 2024/10/24 20:18
  */
 @Data
-@TableName("message")
+@TableName("st_message")
 @AllArgsConstructor
 @NoArgsConstructor
 public class Message {

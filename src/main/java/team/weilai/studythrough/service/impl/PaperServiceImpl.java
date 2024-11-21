@@ -10,6 +10,7 @@ import team.weilai.studythrough.pojo.exam.Exam;
 import team.weilai.studythrough.pojo.exam.ExamQuestion;
 import team.weilai.studythrough.pojo.exam.Paper;
 import team.weilai.studythrough.pojo.exam.PaperQuestion;
+import team.weilai.studythrough.pojo.exam.vo.PaperDetailVO;
 import team.weilai.studythrough.pojo.redis.RedisExam;
 import team.weilai.studythrough.pojo.vo.Result;
 import team.weilai.studythrough.service.PaperService;
@@ -47,7 +48,7 @@ public class PaperServiceImpl extends ServiceImpl<PaperMapper, Paper>
 
 
     @Override
-    public Result<Void> enter(Long examId, Long lessonId) {
+    public Result<Long> enter(Long examId, Long lessonId) {
         String key = EXAM + examId;
         Object o = redisTemplate.opsForValue().get(key);
         Date now = new Date();
@@ -63,11 +64,13 @@ public class PaperServiceImpl extends ServiceImpl<PaperMapper, Paper>
 
             //todo 上锁
             RedisExam redisExam = BeanUtil.copyProperties(exam, RedisExam.class);
-            redisTemplate.opsForValue().set(key, JSONUtil.toJsonStr(redisExam));
+            String s = JSONUtil.toJsonStr(redisExam);
+            redisTemplate.opsForValue().set(key, s);
 
-            o = redisExam;
+            o = s;
         }
-        RedisExam redisExam = (RedisExam) o;
+        String s = (String) o;
+        RedisExam redisExam = JSONUtil.toBean(s, RedisExam.class);
         Date startTime = redisExam.getStartTime();
         Date endTime = redisExam.getEndTime();
         if (startTime != null && endTime != null) {
@@ -84,25 +87,33 @@ public class PaperServiceImpl extends ServiceImpl<PaperMapper, Paper>
         return createPaper(paper,examId);
     }
 
-    private Result<Void> createPaper(Paper paper,Long examId) {
+    private Result<Long> createPaper(Paper paper,Long examId) {
         paper.setUserId(CommonUtils.getUserId());
         paper.setExamId(examId);
         save(paper);
         Object o = redisTemplate.opsForValue().get(EXAM_QUESTION + examId);
         if (o == null) {
             List<ExamQuestion> examQuestions = examQuestionMapper.selectList(
-                    new QueryWrapper<ExamQuestion>().eq("exam_id", examId));
+                    new QueryWrapper<ExamQuestion>().eq("exam_id", examId).select("question_type","question_id"));
             if (examQuestions == null) {
                 return Result.fail("试卷中无题目");
             }
-            List<Long> list = examQuestions.stream().map(ExamQuestion::getQuestionId).collect(Collectors.toList());
-            redisTemplate.opsForValue().set(EXAM_QUESTION+examId,list);
-            o = list;
+            redisTemplate.opsForValue().set(EXAM_QUESTION+examId,examQuestions);
+            o = examQuestions;
         }
-        List<Long> list = (List<Long>) o;
-        List<PaperQuestion> collect = list.stream().map(l -> new PaperQuestion(paper.getPaperId(), l)).collect(Collectors.toList());
+        Long paperId = paper.getPaperId();
+        List<ExamQuestion> list = (List<ExamQuestion>) o;
+        List<PaperQuestion> collect = list.stream().map(l -> {
+            PaperQuestion pq = BeanUtil.copyProperties(l, PaperQuestion.class);
+            pq.setPaperId(paperId);
+            return pq;
+        }).collect(Collectors.toList());
         paperQuestionMapper.insert(collect);
-        return Result.ok();
+
+        //todo 开启定时任务
+
+
+        return Result.ok(paperId);
     }
 }
 

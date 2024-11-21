@@ -9,6 +9,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import team.weilai.studythrough.enums.StatusCodeEnum;
 import team.weilai.studythrough.mapper.ExamQuestionMapper;
+import team.weilai.studythrough.mapper.QuestionMapper;
 import team.weilai.studythrough.pojo.exam.Exam;
 import team.weilai.studythrough.pojo.exam.ExamQuestion;
 import team.weilai.studythrough.pojo.exam.dto.ExamDTO;
@@ -43,6 +44,8 @@ public class ExamServiceImpl extends ServiceImpl<ExamMapper, Exam>
     private ExamQuestionMapper examQuestionMapper;
     @Resource
     private RedisTemplate<String, Object> redisTemplate;
+    @Resource
+    private QuestionMapper questionMapper;
 
     @Override
     public Result<Void> add(ExamDTO dto) {
@@ -77,22 +80,17 @@ public class ExamServiceImpl extends ServiceImpl<ExamMapper, Exam>
         redisTemplate.opsForValue().set(EXAM + examId, JSONUtil.toJsonStr(redisExam));
 
         List<Long> ids = dto.getQuestionIds();
-        List<ExamQuestion> list = ids.stream().map(id -> new ExamQuestion(examId, id))
+        List<ExamQuestion> list = ids.stream().map(id -> {
+                    Integer questionType = questionMapper.selectById(id).getQuestionType();
+                    return new ExamQuestion(examId, id,questionType);
+                })
                 .collect(Collectors.toList());
         examQuestionMapper.insert(list);
-        redisTemplate.opsForValue().set(EXAM_QUESTION+examId,ids);
+        redisTemplate.opsForValue().set(EXAM_QUESTION+examId,list);
 
         return Result.ok();
     }
 
-
-    private int getTotal(ExamDTO dto) {
-        int big = dto.getBigCnt() * dto.getBigScore();
-        int judge = dto.getJudgeCnt() * dto.getJudgeScore();
-        int multi = dto.getMultiCnt() * dto.getMultiScore();
-        int radio = dto.getRadioCnt() * dto.getRadioScore();
-        return big + judge + multi + radio;
-    }
 }
 
 

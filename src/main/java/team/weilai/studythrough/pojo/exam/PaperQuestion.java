@@ -9,9 +9,9 @@ import lombok.Data;
 
 /**
  *
- * @TableName paper_question
+ * @TableName st_paper_question
  */
-@TableName(value ="paper_question")
+@TableName(value ="st_paper_question")
 @Data
 public class PaperQuestion implements Serializable {
     /**
@@ -29,6 +29,11 @@ public class PaperQuestion implements Serializable {
      *
      */
     private Long questionId;
+
+    /**
+     *
+     */
+    private Integer questionType;
 
     /**
      * 0:未答  1：已答

@@ -10,14 +10,12 @@ import team.weilai.studythrough.pojo.exam.QuestionAns;
 import team.weilai.studythrough.pojo.exam.QuestionRepo;
 import team.weilai.studythrough.pojo.exam.dto.QuestionDTO;
 import team.weilai.studythrough.pojo.exam.dto.QuestionQueryDTO;
-import team.weilai.studythrough.pojo.exam.vo.PaperReviewVO;
-import team.weilai.studythrough.pojo.exam.vo.QuCommonVO;
-import team.weilai.studythrough.pojo.exam.vo.QuestionDetailVO;
-import team.weilai.studythrough.pojo.exam.vo.QuestionVO;
+import team.weilai.studythrough.pojo.exam.vo.*;
 import team.weilai.studythrough.pojo.vo.Result;
-import team.weilai.studythrough.service.QuestionService;
 import team.weilai.studythrough.mapper.QuestionMapper;
 import org.springframework.stereotype.Service;
+import team.weilai.studythrough.service.QuestionService;
+import team.weilai.studythrough.util.CommonUtils;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
@@ -34,7 +32,7 @@ import static team.weilai.studythrough.constants.Constants.NO_CHOOSE;
 */
 @Service
 public class QuestionServiceImpl extends ServiceImpl<QuestionMapper, Question>
-    implements QuestionService{
+    implements QuestionService {
 
     @Resource
     private QuestionAnsMapper questionAnsMapper;
@@ -105,6 +103,12 @@ public class QuestionServiceImpl extends ServiceImpl<QuestionMapper, Question>
         }
         PaperReviewVO reviewVO = new PaperReviewVO(radioList, multiList, judgeList, bigList);
         return Result.ok(reviewVO);
+    }
+
+    @Override
+    public Result<PaperQuVO> getQu(Long questionId,Long paperId) {
+        PaperQuVO qu = questionMapper.getQu(questionId,paperId);
+        return Result.ok(qu);
     }
 }
 

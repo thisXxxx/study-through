@@ -7,9 +7,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import team.weilai.studythrough.pojo.exam.QuestionAns;
 import team.weilai.studythrough.pojo.exam.dto.QuestionDTO;
 import team.weilai.studythrough.pojo.exam.dto.QuestionQueryDTO;
-import team.weilai.studythrough.pojo.exam.vo.PaperReviewVO;
-import team.weilai.studythrough.pojo.exam.vo.QuestionDetailVO;
-import team.weilai.studythrough.pojo.exam.vo.QuestionVO;
+import team.weilai.studythrough.pojo.exam.vo.*;
 import team.weilai.studythrough.pojo.vo.Result;
 
 import java.util.List;
@@ -29,4 +27,6 @@ public interface QuestionService extends IService<Question> {
     Result<QuestionDetailVO> getDetail(Long questionId);
 
     Result<PaperReviewVO> preview(List<Long> ids);
+
+    Result<PaperQuVO> getQu(Long questionId,Long paperId);
 }

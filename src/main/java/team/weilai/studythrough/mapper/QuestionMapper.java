@@ -5,6 +5,7 @@ import org.apache.ibatis.annotations.Param;
 import team.weilai.studythrough.pojo.exam.Question;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import team.weilai.studythrough.pojo.exam.dto.QuestionQueryDTO;
+import team.weilai.studythrough.pojo.exam.vo.PaperQuVO;
 import team.weilai.studythrough.pojo.exam.vo.QuCommonVO;
 import team.weilai.studythrough.pojo.exam.vo.QuestionDetailVO;
 import team.weilai.studythrough.pojo.exam.vo.QuestionVO;
@@ -26,6 +27,7 @@ public interface QuestionMapper extends BaseMapper<Question> {
 
     List<QuCommonVO> preview(@Param("ids") List<Long> ids);
 
+    PaperQuVO getQu(@Param("questionId") Long questionId,@Param("paperId") Long paperId);
 }
 
 
