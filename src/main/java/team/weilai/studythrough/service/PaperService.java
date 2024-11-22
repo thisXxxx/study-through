@@ -14,4 +14,5 @@ public interface PaperService extends IService<Paper> {
 
     Result<Long> enter(Long examId,Long lessonId);
 
+    Result<Void> handExam(Long paperId);
 }

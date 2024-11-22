@@ -10,8 +10,8 @@
                u.name,
                u.username,
                m.create_time
-        from message m
-        join user u on u.user_id = m.from_user
+        from st_message m
+        join st_user u on u.user_id = m.from_user
         where m.lesson_id = #{lessonId}
     </select>
 </mapper>

@@ -5,24 +5,25 @@ import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.data.redis.core.RedisTemplate;
+import team.weilai.studythrough.ability.quartz.enums.JobPrefix;
+import team.weilai.studythrough.ability.quartz.job.BreakExamJob;
+import team.weilai.studythrough.ability.quartz.service.JobService;
 import team.weilai.studythrough.mapper.*;
 import team.weilai.studythrough.pojo.exam.Exam;
 import team.weilai.studythrough.pojo.exam.ExamQuestion;
 import team.weilai.studythrough.pojo.exam.Paper;
 import team.weilai.studythrough.pojo.exam.PaperQuestion;
-import team.weilai.studythrough.pojo.exam.vo.PaperDetailVO;
 import team.weilai.studythrough.pojo.redis.RedisExam;
 import team.weilai.studythrough.pojo.vo.Result;
 import team.weilai.studythrough.service.PaperService;
 import org.springframework.stereotype.Service;
 import team.weilai.studythrough.util.CommonUtils;
+import team.weilai.studythrough.util.CronUtils;
 
 import javax.annotation.Resource;
 
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 import static team.weilai.studythrough.constants.RedisConstants.EXAM;
@@ -45,6 +46,8 @@ public class PaperServiceImpl extends ServiceImpl<PaperMapper, Paper>
     private ExamQuestionMapper examQuestionMapper;
     @Resource
     private PaperQuestionMapper paperQuestionMapper;
+    @Resource
+    private JobService jobService;
 
 
     @Override
@@ -87,6 +90,11 @@ public class PaperServiceImpl extends ServiceImpl<PaperMapper, Paper>
         return createPaper(paper,examId);
     }
 
+    @Override
+    public Result<Void> handExam(Long paperId) {
+        return null;
+    }
+
     private Result<Long> createPaper(Paper paper,Long examId) {
         paper.setUserId(CommonUtils.getUserId());
         paper.setExamId(examId);
@@ -110,9 +118,17 @@ public class PaperServiceImpl extends ServiceImpl<PaperMapper, Paper>
         }).collect(Collectors.toList());
         paperQuestionMapper.insert(collect);
 
-        //todo 开启定时任务
-
-
+        // 添加强制交卷任务
+        /*Date date = paper.getEndTime();
+        Date now = new Date();
+        long l = now.getTime() + paper.getKeepTime() * 60 * 1000;
+        Date dao = new Date(l);
+        if (dao.before(date)) {
+            date = dao;
+        }
+        String jobName = JobPrefix.BREAK_EXAM + paper.getPaperId();
+        jobService.addCronJob(BreakExamJob.class, jobName, CronUtils.dateToCron(date), paper.getPaperId()+"");
+*/
         return Result.ok(paperId);
     }
 }

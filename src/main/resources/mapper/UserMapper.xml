@@ -12,7 +12,7 @@
                email,
                sex,
                status
-        from user
+        from st_user
         <where>
             <if test="name != null and name != ''">
                 name like concat('%',#{name},'%')

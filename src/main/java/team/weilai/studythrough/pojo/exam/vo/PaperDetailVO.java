@@ -20,4 +20,5 @@ public class PaperDetailVO {
     private List<PaperQuestion> judgeList;
     private List<PaperQuestion> bigList;
     private String examName;
+    private Long keepTime;
 }

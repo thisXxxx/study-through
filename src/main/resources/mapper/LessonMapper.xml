@@ -10,7 +10,7 @@
                cover_url,
                end_time,
                create_time
-        from lesson
+        from st_lesson
         <where>
             <if test="name != null and name != ''">
                 lesson_name like concat('%',#{name},'%')
@@ -23,8 +23,8 @@
                l.end_time,
                l.create_time,
                u.name
-        from lesson l
-        join user u on u.user_id = l.user_id
+        from st_lesson l
+        join st_user u on u.user_id = l.user_id
         where l.lesson_id = #{lessonId}
     </select>
 </mapper>

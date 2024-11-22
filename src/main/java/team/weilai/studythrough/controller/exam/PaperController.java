@@ -5,6 +5,7 @@ import io.swagger.annotations.ApiOperation;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import springfox.documentation.annotations.ApiIgnore;
 import team.weilai.studythrough.enums.StatusCodeEnum;
 import team.weilai.studythrough.pojo.exam.Paper;
 import team.weilai.studythrough.pojo.exam.dto.PaperAnswerDTO;
@@ -70,6 +71,14 @@ public class PaperController {
             return Result.fail(StatusCodeEnum.AUTHORIZED);
         }
         return paperQuestionService.fillAns(answerDTO);
+    }
+
+
+    @PostMapping("/handPaper")
+    @ApiOperation("提交试卷")
+    @ApiIgnore
+    public Result<Void> handPaper(@NotNull Long paperId) {
+        return paperService.handExam(paperId);
     }
 
 }

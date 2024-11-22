@@ -12,9 +12,9 @@
                l.create_time,
                u.user_id,
                u.name
-        from lesson l
-        join lesson_stu s on l.lesson_id = s.lesson_id
-        join user u on l.user_id = u.user_id
+        from st_lesson l
+        join st_lesson_stu s on l.lesson_id = s.lesson_id
+        join st_user u on l.user_id = u.user_id
         where s.user_id = #{userId} and s.status = 1
         <if test="name != null and name != ''">
             and l.lesson_name like concat('%',#{name},'%')

@@ -3,6 +3,7 @@ package team.weilai.studythrough.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import team.weilai.studythrough.mapper.PaperMapper;
+import team.weilai.studythrough.pojo.exam.Paper;
 import team.weilai.studythrough.pojo.exam.PaperQuestion;
 import team.weilai.studythrough.pojo.exam.dto.PaperAnswerDTO;
 import team.weilai.studythrough.pojo.exam.vo.PaperDetailVO;
@@ -57,8 +58,9 @@ public class PaperQuestionServiceImpl extends ServiceImpl<PaperQuestionMapper, P
                     bl.add(pq);
             }
         }
-        String examName = paperMapper.selectById(paperId).getExamName();
-        PaperDetailVO paperDetailVO = new PaperDetailVO(rl, ml, jl, bl,examName);
+        Paper paper = paperMapper.selectById(paperId);
+        String examName = paper.getExamName();
+        PaperDetailVO paperDetailVO = new PaperDetailVO(rl, ml, jl, bl,examName,paper.getKeepTime());
         return Result.ok(paperDetailVO);
     }
 
@@ -67,7 +69,7 @@ public class PaperQuestionServiceImpl extends ServiceImpl<PaperQuestionMapper, P
         boolean b = update().set("answer", answerDTO.getAnswer()).set("answered", 1)
                 .eq("question_id", answerDTO.getQuestionId())
                 .eq("paper_id", answerDTO.getPaperId()).update();
-        return Result.ok();
+        return b ? Result.ok() : Result.fail();
     }
 }
 
