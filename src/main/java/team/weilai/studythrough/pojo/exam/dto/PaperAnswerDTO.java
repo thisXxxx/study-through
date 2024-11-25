@@ -18,5 +18,5 @@ public class PaperAnswerDTO {
     @NotNull(message = Constants.ARG_ERROR)
     private Long paperId;
     @NotNull(message = Constants.ARG_ERROR)
-    private Long questionId;
+    private Long paperQuId;
 }

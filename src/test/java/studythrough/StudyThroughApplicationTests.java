@@ -92,4 +92,13 @@ class StudyThroughApplicationTests {
         }
     }
 
+    @Test
+    void tt() {
+        List<Long> list = new ArrayList<>();
+        list.add(1L);
+        list.add(2L);
+        list.add(3L);
+        System.out.println(list);
+    }
+
 }

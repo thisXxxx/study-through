@@ -13,7 +13,7 @@ import team.weilai.studythrough.pojo.vo.Result;
 */
 public interface PaperQuestionService extends IService<PaperQuestion> {
 
-    Result<PaperDetailVO> detail(Long paperId);
+    Result<PaperDetailVO> detail(Long paperId,boolean isFin);
 
     Result<Void> fillAns(PaperAnswerDTO answerDTO);
 }

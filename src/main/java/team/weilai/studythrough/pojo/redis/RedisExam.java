@@ -24,4 +24,8 @@ public class RedisExam {
     private Integer totalScore;
     private Integer passScore;
     private Integer has_saq;
+    private Integer radioScore;
+    private Integer multiScore;
+    private Integer judgeScore;
+    private Integer bigScore;
 }

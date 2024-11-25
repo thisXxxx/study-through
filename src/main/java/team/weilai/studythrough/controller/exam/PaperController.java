@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 import team.weilai.studythrough.enums.StatusCodeEnum;
 import team.weilai.studythrough.pojo.exam.Paper;
+import team.weilai.studythrough.pojo.exam.PaperQuestion;
 import team.weilai.studythrough.pojo.exam.dto.PaperAnswerDTO;
 import team.weilai.studythrough.pojo.exam.vo.PaperDetailVO;
 import team.weilai.studythrough.pojo.exam.vo.PaperQuVO;
@@ -51,7 +52,7 @@ public class PaperController {
     @ApiOperation("试卷详情")
     @PreAuthorize("hasAuthority('0')")
     public Result<PaperDetailVO> detail(@NotNull Long paperId) {
-        return paperQuestionService.detail(paperId);
+        return paperQuestionService.detail(paperId,false);
     }
 
 
@@ -76,9 +77,15 @@ public class PaperController {
 
     @PostMapping("/handPaper")
     @ApiOperation("提交试卷")
-    @ApiIgnore
     public Result<Void> handPaper(@NotNull Long paperId) {
         return paperService.handExam(paperId);
+    }
+
+
+    @GetMapping("/getPaper")
+    @ApiOperation("考试结束后查看试卷详情")
+    public Result<PaperDetailVO> getPaper(@NotNull Long paperId) {
+        return paperQuestionService.detail(paperId,true);
     }
 
 }

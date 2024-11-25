@@ -66,7 +66,8 @@ public class JobServiceImpl implements JobService {
                 log.info("+++++表达式执行:"+ JSON.toJSONString(jobDetail));
                 //表达式调度构建器
                 CronScheduleBuilder scheduleBuilder = CronScheduleBuilder.cronSchedule(cron);
-                trigger = TriggerBuilder.newTrigger().withIdentity(jobName, jobGroup).withSchedule(scheduleBuilder).build();
+                trigger = TriggerBuilder.newTrigger().withIdentity(jobName, jobGroup)
+                        .withSchedule(scheduleBuilder).build();
             }else{
                 // 无表达式则立即执行
                 log.info("+++++立即执行:"+ JSON.toJSONString(jobDetail));

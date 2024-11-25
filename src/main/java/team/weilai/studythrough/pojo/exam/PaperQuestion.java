@@ -46,6 +46,11 @@ public class PaperQuestion implements Serializable {
     private String answer;
 
     /**
+     * 标准答案
+     */
+    private String standardAns;
+
+    /**
      * 单题分值
      */
     private Integer score;
@@ -59,6 +64,9 @@ public class PaperQuestion implements Serializable {
      * 是否答对
      */
     private Integer isRight;
+
+    @TableField(exist = false)
+    private Integer total;
 
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;
