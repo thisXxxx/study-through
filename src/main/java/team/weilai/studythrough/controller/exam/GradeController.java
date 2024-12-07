@@ -1,4 +1,4 @@
-package team.weilai.studythrough.module.exam.controller;
+package team.weilai.studythrough.controller.exam;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;

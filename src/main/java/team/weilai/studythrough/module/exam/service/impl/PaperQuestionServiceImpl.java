@@ -43,8 +43,6 @@ public class PaperQuestionServiceImpl extends ServiceImpl<PaperQuestionMapper, P
     private QuestionMapper questionMapper;
     @Resource
     private QuestionAnsMapper questionAnsMapper;
-    @Resource(name = "threadPool")
-    private ThreadPoolTaskExecutor poolTaskExecutor;
     @Resource
     private RedisTemplate<String,Object> redisTemplate;
     @Resource
@@ -105,27 +103,6 @@ public class PaperQuestionServiceImpl extends ServiceImpl<PaperQuestionMapper, P
         paperQuestion.setAnswered(1);
         int i = baseMapper.updateById(paperQuestion);
 
-
-        poolTaskExecutor.execute(()->{
-            String standardAns = paperQuestion.getStandardAns();
-            if (standardAns == null) {
-                Integer type = paperQuestion.getQuestionType();
-                Long questionId = paperQuestion.getQuestionId();
-                if (Objects.equals(type, NO_CHOOSE)) {
-                    Question question = questionMapper.selectById(questionId);
-                    paperQuestion.setStandardAns(question.getQuestionAnalysis());
-                } else {
-                    List<QuestionAns> questionAns = questionAnsMapper.selectList(new QueryWrapper<QuestionAns>()
-                            .eq("question_id", questionId)
-                            .eq("is_right", 0).select("ans_id"));
-                    List<Long> ansIds = questionAns.stream().map(QuestionAns::getAnsId)
-                            .collect(Collectors.toList());
-                    paperQuestion.setStandardAns(ansIds.toString());
-                }
-                baseMapper.updateById(paperQuestion);
-            }
-        });
-
         return i > 0 ? Result.ok() : Result.fail();
     }
 
@@ -157,19 +134,19 @@ public class PaperQuestionServiceImpl extends ServiceImpl<PaperQuestionMapper, P
         for (PaperQuestion pq : list) {
             Integer type = pq.getQuestionType();
             String answer = pq.getAnswer();
-            String standardAns = pq.getStandardAns();
+            String sa = pq.getStandardAns();
+            String standardAns = sa.substring(1, sa.length() - 1);
             if (type == 1) {
                 String[] split = answer.split(",");
-                int len = standardAns.length();
-                String trim = standardAns.substring(1, len - 1);
-                List<String> ans = Arrays.asList(trim.split(", "));
+                List<String> ans = Arrays.asList(standardAns.split(", "));
                 for (String string : split) {
                     if (!ans.contains(string)) {
                         pq.setActualScore(0);
+                        pq.setIsRight(1);
                         continue loop;
                     }
                 }
-                if (split.length == len) {
+                if (split.length == ans.size()) {
                     pq.setActualScore(multi);
                     pq.setIsRight(0);
                 } else {

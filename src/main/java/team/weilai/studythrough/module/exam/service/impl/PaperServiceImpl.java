@@ -1,25 +1,22 @@
 package team.weilai.studythrough.module.exam.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.json.JSONArray;
 import cn.hutool.json.JSONUtil;
+import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import team.weilai.studythrough.ability.quartz.enums.JobGroup;
 import team.weilai.studythrough.ability.quartz.enums.JobPrefix;
 import team.weilai.studythrough.ability.quartz.job.BreakExamJob;
 import team.weilai.studythrough.ability.quartz.service.JobService;
-import team.weilai.studythrough.mapper.exam.ExamMapper;
-import team.weilai.studythrough.mapper.exam.ExamQuestionMapper;
-import team.weilai.studythrough.mapper.exam.PaperMapper;
-import team.weilai.studythrough.mapper.exam.PaperQuestionMapper;
+import team.weilai.studythrough.mapper.exam.*;
 import team.weilai.studythrough.module.exam.service.PaperQuestionService;
+import team.weilai.studythrough.pojo.exam.main.*;
 import team.weilai.studythrough.util.enums.StatusCodeEnum;
-import team.weilai.studythrough.pojo.exam.main.Exam;
-import team.weilai.studythrough.pojo.exam.main.ExamQuestion;
-import team.weilai.studythrough.pojo.exam.main.Paper;
-import team.weilai.studythrough.pojo.exam.main.PaperQuestion;
 import team.weilai.studythrough.pojo.redis.RedisExam;
 import team.weilai.studythrough.pojo.vo.Result;
 import team.weilai.studythrough.module.exam.service.PaperService;
@@ -32,6 +29,7 @@ import javax.annotation.Resource;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static team.weilai.studythrough.constants.Constants.NO_CHOOSE;
 import static team.weilai.studythrough.constants.RedisConstants.EXAM;
 import static team.weilai.studythrough.constants.RedisConstants.EXAM_QUESTION;
 
@@ -59,6 +57,13 @@ public class PaperServiceImpl extends ServiceImpl<PaperMapper, Paper>
     private PaperMapper paperMapper;
     @Resource
     private PaperQuestionService paperQuestionService;
+    @Resource(name = "threadPool")
+    private ThreadPoolTaskExecutor poolTaskExecutor;
+    @Resource
+    private QuestionAnsMapper questionAnsMapper;
+    @Resource
+    private QuestionMapper questionMapper;
+
 
 
     @Override
@@ -132,8 +137,6 @@ public class PaperServiceImpl extends ServiceImpl<PaperMapper, Paper>
     }
 
 
-
-
     private Result<Long> createPaper(Paper paper, Long examId) {
         paper.setUserId(CommonUtils.getUserId());
         paper.setExamId(examId);
@@ -149,7 +152,9 @@ public class PaperServiceImpl extends ServiceImpl<PaperMapper, Paper>
             o = examQuestions;
         }
         Long paperId = paper.getPaperId();
-        List<ExamQuestion> list = (List<ExamQuestion>) o;
+        JSONArray array = JSONUtil.parseArray(o.toString());
+        List<ExamQuestion> list = array.toList(ExamQuestion.class);
+
         List<PaperQuestion> collect = list.stream().map(l -> {
             PaperQuestion pq = BeanUtil.copyProperties(l, PaperQuestion.class);
             pq.setPaperId(paperId);
@@ -167,6 +172,26 @@ public class PaperServiceImpl extends ServiceImpl<PaperMapper, Paper>
         }
         String jobName = JobPrefix.BREAK_EXAM + paper.getPaperId();
         jobService.addCronJob(BreakExamJob.class, jobName, CronUtils.dateToCron(date), paper.getPaperId() + "");
+
+        poolTaskExecutor.execute(() -> {
+            for (PaperQuestion paperQuestion : collect) {
+                Integer type = paperQuestion.getQuestionType();
+                Long questionId = paperQuestion.getQuestionId();
+                if (Objects.equals(type, NO_CHOOSE)) {
+                    Question question = questionMapper.selectById(questionId);
+                    paperQuestion.setStandardAns(question.getQuestionAnalysis());
+                } else {
+                    List<QuestionAns> questionAns = questionAnsMapper.selectList(new QueryWrapper<QuestionAns>()
+                            .eq("question_id", questionId)
+                            .eq("is_right", 0).select("ans_id"));
+                    List<Long> ansIds = questionAns.stream().map(QuestionAns::getAnsId)
+                            .collect(Collectors.toList());
+                    paperQuestion.setStandardAns(ansIds.toString());
+                }
+                paperQuestionMapper.updateById(paperQuestion);
+
+            }
+        });
 
         return Result.ok(paperId);
     }

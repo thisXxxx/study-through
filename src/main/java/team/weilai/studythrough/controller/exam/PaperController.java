@@ -1,4 +1,4 @@
-package team.weilai.studythrough.module.exam.controller;
+package team.weilai.studythrough.controller.exam;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
