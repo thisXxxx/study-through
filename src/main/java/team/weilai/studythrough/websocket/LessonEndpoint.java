@@ -7,10 +7,10 @@ import org.springframework.stereotype.Component;
 import team.weilai.studythrough.mapper.LessonMapper;
 import team.weilai.studythrough.mapper.LessonMessageMapper;
 import team.weilai.studythrough.mapper.LessonStuMapper;
-import team.weilai.studythrough.pojo.Lesson;
-import team.weilai.studythrough.pojo.LessonStu;
-import team.weilai.studythrough.pojo.Message;
-import team.weilai.studythrough.pojo.exam.LessonMessage;
+import team.weilai.studythrough.pojo.main.Lesson;
+import team.weilai.studythrough.pojo.main.LessonStu;
+import team.weilai.studythrough.pojo.main.Message;
+import team.weilai.studythrough.pojo.exam.main.LessonMessage;
 import team.weilai.studythrough.service.MessageService;
 import team.weilai.studythrough.websocket.config.GetUserConfigurator;
 import team.weilai.studythrough.websocket.pojo.LessonMsg;
@@ -119,7 +119,7 @@ public class LessonEndpoint {
         if (type == 1 || type == 2) {
             String mess = msg.getMsg();
             sendMsg(lessonId, mess);
-            lessonMessageMapper.insert(new LessonMessage(type,mess));
+            lessonMessageMapper.insert(new LessonMessage(type,mess,lessonId));
         }
     }
 

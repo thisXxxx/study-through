@@ -2,7 +2,7 @@ package team.weilai.studythrough.service;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
-import team.weilai.studythrough.pojo.Message;
+import team.weilai.studythrough.pojo.main.Message;
 import team.weilai.studythrough.pojo.vo.MessageVO;
 import team.weilai.studythrough.pojo.vo.Result;
 

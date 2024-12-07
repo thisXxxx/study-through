@@ -10,7 +10,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import springfox.documentation.annotations.ApiIgnore;
-import team.weilai.studythrough.enums.StatusCodeEnum;
+import team.weilai.studythrough.util.enums.StatusCodeEnum;
 import team.weilai.studythrough.pojo.dto.UserDTO;
 import team.weilai.studythrough.pojo.vo.Result;
 import team.weilai.studythrough.pojo.vo.UserVO;

@@ -2,7 +2,7 @@ package team.weilai.studythrough.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import org.springframework.scheduling.annotation.Async;
-import team.weilai.studythrough.pojo.Sign;
+import team.weilai.studythrough.pojo.main.Sign;
 import team.weilai.studythrough.pojo.dto.SignDTO;
 import team.weilai.studythrough.pojo.vo.Result;
 import team.weilai.studythrough.websocket.pojo.SignMsg;

@@ -1,15 +1,13 @@
 package team.weilai.studythrough.config;
 
 import org.springframework.context.annotation.Configuration;
-import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
-import team.weilai.studythrough.interceptor.LessonInterceptor;
+import team.weilai.studythrough.config.interceptor.LessonInterceptor;
 import team.weilai.studythrough.mapper.LessonMapper;
 import team.weilai.studythrough.mapper.LessonStuMapper;
-import team.weilai.studythrough.pojo.LessonStu;
 
 import javax.annotation.Resource;
 
@@ -41,7 +39,8 @@ public class WebMVCConfig extends WebMvcConfigurationSupport {
         registry.addInterceptor(new LessonInterceptor(lessonMapper,lessonStuMapper)).addPathPatterns(
                 "/tea/listFile",
                 "/tea/makeDir",
-                "/tea/makeFile"
+                "/tea/makeFile",
+                "/exam/query"
         );
 
     }

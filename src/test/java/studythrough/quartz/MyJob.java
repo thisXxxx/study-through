@@ -18,13 +18,9 @@ public class MyJob implements Job {
 
     @Override
     public void execute(JobExecutionContext jobExecutionContext) throws JobExecutionException {
-        /*JobDataMap jobDetailMap = jobExecutionContext.getJobDetail().getJobDataMap();
-        JobDataMap triggerMap = jobExecutionContext.getTrigger().getJobDataMap();
+
         JobDataMap mergeMap = jobExecutionContext.getMergedJobDataMap();
-        System.out.println(mergeMap.get("job"));
-        System.out.println(mergeMap.get("trigger"));
-        System.out.println("hello job"+new Date());*/
-        //System.out.println(name);
+        System.out.println(mergeMap.get("tong"));
 
         System.out.println("hello job! "+new Date());
         try {
@@ -32,5 +28,6 @@ public class MyJob implements Job {
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
+        System.out.println("hello job! "+new Date());
     }
 }

@@ -5,11 +5,10 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
-import team.weilai.studythrough.constants.Constants;
 import team.weilai.studythrough.mapper.SignMapper;
 import team.weilai.studythrough.mapper.SignStuMapper;
-import team.weilai.studythrough.pojo.Sign;
-import team.weilai.studythrough.pojo.SignStu;
+import team.weilai.studythrough.pojo.main.Sign;
+import team.weilai.studythrough.pojo.main.SignStu;
 import team.weilai.studythrough.pojo.dto.SignDTO;
 import team.weilai.studythrough.pojo.vo.Result;
 import team.weilai.studythrough.service.SignService;
@@ -59,12 +58,11 @@ public class SignServiceImpl extends ServiceImpl<SignMapper, Sign> implements Si
         Long userId = CommonUtils.getUserId();
         String setLong = (String) redisTemplate.opsForHash().get(key, "longitude");
         String setLa = (String) redisTemplate.opsForHash().get(key, "latitude");
-        String s = (String) redisTemplate.opsForHash().get(key, "distance");
-        if (setLa == null || setLong == null || s == null) {
+        Integer distance = (Integer) redisTemplate.opsForHash().get(key, "distance");
+        if (setLa == null || setLong == null || distance == null) {
             add(userId,signId, TIME_EXCEED);
             return Result.fail("超时");
         }
-        int distance = Integer.parseInt(s);
         double haversine = HaversineUtil.haversine(Double.parseDouble(latitude), Double.parseDouble(longitude),
                 Double.parseDouble(setLa), Double.parseDouble(setLong));
         if (haversine > distance) {

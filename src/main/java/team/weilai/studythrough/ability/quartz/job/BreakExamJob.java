@@ -8,7 +8,7 @@ import org.quartz.JobExecutionException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import team.weilai.studythrough.ability.quartz.service.JobService;
-import team.weilai.studythrough.service.PaperService;
+import team.weilai.studythrough.module.exam.service.PaperService;
 
 /**
  * 超时自动交卷任务

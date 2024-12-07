@@ -2,11 +2,9 @@ package team.weilai.studythrough.pojo.exam.dto;
 
 import lombok.Data;
 import team.weilai.studythrough.constants.Constants;
-import team.weilai.studythrough.pojo.exam.QuestionAns;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import java.util.List;
 
 /**
  * @author gwj

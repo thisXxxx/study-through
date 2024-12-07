@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="team.weilai.studythrough.mapper.exam.ExamMapper">
+
+    <resultMap id="BaseResultMap" type="team.weilai.studythrough.pojo.exam.main.Exam">
+            <id property="examId" column="exam_id" jdbcType="BIGINT"/>
+            <result property="lessonId" column="lesson_id" jdbcType="BIGINT"/>
+            <result property="examName" column="exam_name" jdbcType="VARCHAR"/>
+            <result property="totalScore" column="total_score" jdbcType="INTEGER"/>
+            <result property="passScore" column="pass_score" jdbcType="INTEGER"/>
+            <result property="keepTime" column="keep_time" jdbcType="INTEGER"/>
+            <result property="startTime" column="start_time" jdbcType="TIMESTAMP"/>
+            <result property="endTime" column="end_time" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        exam_id,lesson_id,exam_name,
+        exam_desc,total_score,pass_score,
+        keep_time,start_time,end_time
+    </sql>
+</mapper>

@@ -1,22 +1,20 @@
 package studythrough;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.generator.FastAutoGenerator;
 import com.baomidou.mybatisplus.generator.config.OutputFile;
 import com.baomidou.mybatisplus.generator.engine.FreemarkerTemplateEngine;
-import io.minio.ComposeObjectArgs;
-import io.minio.MinioClient;
-import io.minio.ObjectWriteResponse;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import team.weilai.studythrough.StudyThroughApplication;
-import team.weilai.studythrough.config.BigModelConfig;
-import team.weilai.studythrough.pojo.exam.ExamQuestion;
+import team.weilai.studythrough.pojo.exam.main.ExamQuestion;
+import team.weilai.studythrough.pojo.exam.dto.QuestionQueryDTO;
+import team.weilai.studythrough.pojo.exam.vo.QuestionVO;
+import team.weilai.studythrough.module.exam.service.QuestionService;
+import team.weilai.studythrough.pojo.vo.Result;
 import team.weilai.studythrough.util.DateUtil;
 import team.weilai.studythrough.util.HaversineUtil;
-import team.weilai.studythrough.util.MinioUtil;
-import team.weilai.studythrough.websocket.BigModelNew;
 
 import javax.annotation.Resource;
 import java.text.ParseException;
@@ -26,11 +24,9 @@ import java.util.*;
 class StudyThroughApplicationTests {
 
     @Resource
-    private MinioUtil minioUtil;
-    @Resource
-    private MinioClient minioClient;
-    @Resource
     private RedisTemplate<String,Object> redisTemplate;
+    @Resource
+    private QuestionService questionService;
 
     @Test
     void contextLoads() {
@@ -94,11 +90,11 @@ class StudyThroughApplicationTests {
 
     @Test
     void tt() {
-        List<Long> list = new ArrayList<>();
-        list.add(1L);
-        list.add(2L);
-        list.add(3L);
-        System.out.println(list);
+        QuestionQueryDTO dto = new QuestionQueryDTO();
+        dto.setPageNum(1);
+        dto.setPageSize(10);
+        Result<Page<QuestionVO>> result = questionService.select(dto);
+        System.out.println(result.getData().getRecords());
     }
 
 }

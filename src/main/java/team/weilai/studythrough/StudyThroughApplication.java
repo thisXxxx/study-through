@@ -3,11 +3,11 @@ package team.weilai.studythrough;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.scheduling.annotation.EnableAsync;
+import org.springframework.data.elasticsearch.repository.config.EnableElasticsearchRepositories;
 
 @SpringBootApplication
-@EnableAsync
 @MapperScan("team.weilai.studythrough.mapper")
+@EnableElasticsearchRepositories("team.weilai.studythrough.es.dao")
 public class StudyThroughApplication {
 
     public static void main(String[] args) {

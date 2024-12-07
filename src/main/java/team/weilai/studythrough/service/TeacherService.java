@@ -2,7 +2,7 @@ package team.weilai.studythrough.service;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.web.multipart.MultipartFile;
-import team.weilai.studythrough.pojo.LessonStu;
+import team.weilai.studythrough.pojo.main.LessonStu;
 import team.weilai.studythrough.pojo.vo.Result;
 import team.weilai.studythrough.websocket.pojo.AuditStu;
 

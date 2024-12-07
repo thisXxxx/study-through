@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 import team.weilai.studythrough.mapper.MessageMapper;
-import team.weilai.studythrough.pojo.Message;
+import team.weilai.studythrough.pojo.main.Message;
 import team.weilai.studythrough.pojo.vo.MessageVO;
 import team.weilai.studythrough.pojo.vo.Result;
 import team.weilai.studythrough.service.MessageService;

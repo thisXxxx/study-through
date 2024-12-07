@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import team.weilai.studythrough.config.MinioConfig;
 import team.weilai.studythrough.mapper.LessonStuMapper;
-import team.weilai.studythrough.pojo.LessonStu;
+import team.weilai.studythrough.pojo.main.LessonStu;
 import team.weilai.studythrough.pojo.vo.Result;
 import team.weilai.studythrough.service.TeacherService;
 import team.weilai.studythrough.util.CommonUtils;
@@ -50,7 +50,7 @@ public class TeacherServiceImpl implements TeacherService {
     private MinioUtil minioUtil;
     @Resource
     private MinioConfig minioConfig;
-    @Resource(name = "minIOUploadTreadPool")
+    @Resource(name = "threadPool")
     private ThreadPoolTaskExecutor poolTaskExecutor;
 
 

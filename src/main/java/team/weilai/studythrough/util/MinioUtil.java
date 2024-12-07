@@ -36,7 +36,7 @@ public class MinioUtil {
     private MinioClient minioClient;
     @Resource
     private MinioConfig config;
-    @Resource(name = "minIOUploadTreadPool")
+    @Resource(name = "threadPool")
     private ThreadPoolTaskExecutor poolTaskExecutor;
 
 

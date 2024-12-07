@@ -53,6 +53,10 @@ spring:
             threadCount: 10
             threadPriority: 5
             threadsInheritContextClassLoaderOfInitializingThread: true
+  elasticsearch:
+    username: elastic
+    password: 211322GWj@es
+    uris: http://47.121.129.110:9200
 
 minio:
   endpoint: http://81.70.144.36:9000

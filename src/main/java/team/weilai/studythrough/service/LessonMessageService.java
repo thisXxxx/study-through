@@ -1,7 +1,7 @@
 package team.weilai.studythrough.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import team.weilai.studythrough.pojo.exam.LessonMessage;
+import team.weilai.studythrough.pojo.exam.main.LessonMessage;
 
 /**
  * @author gwj

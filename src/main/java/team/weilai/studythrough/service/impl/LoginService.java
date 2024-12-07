@@ -6,8 +6,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import team.weilai.studythrough.mapper.UserMapper;
-import team.weilai.studythrough.pojo.LoginUser;
-import team.weilai.studythrough.pojo.User;
+import team.weilai.studythrough.pojo.main.LoginUser;
+import team.weilai.studythrough.pojo.main.User;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;

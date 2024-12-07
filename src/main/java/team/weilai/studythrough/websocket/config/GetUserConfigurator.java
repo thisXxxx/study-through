@@ -3,7 +3,7 @@ package team.weilai.studythrough.websocket.config;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import team.weilai.studythrough.pojo.LoginUser;
+import team.weilai.studythrough.pojo.main.LoginUser;
 
 import javax.websocket.HandshakeResponse;
 import javax.websocket.server.HandshakeRequest;

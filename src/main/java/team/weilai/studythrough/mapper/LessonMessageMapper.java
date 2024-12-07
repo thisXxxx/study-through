@@ -1,13 +1,13 @@
 package team.weilai.studythrough.mapper;
 
-import team.weilai.studythrough.pojo.exam.LessonMessage;
+import team.weilai.studythrough.pojo.exam.main.LessonMessage;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**
 * @author 86159
 * @description 针对表【lesson_message】的数据库操作Mapper
 * @createDate 2024-11-12 21:22:08
-* @Entity team.weilai.studythrough.pojo.exam.LessonMessage
+* @Entity team.weilai.studythrough.pojo.exam.main.LessonMessage
 */
 public interface LessonMessageMapper extends BaseMapper<LessonMessage> {
 

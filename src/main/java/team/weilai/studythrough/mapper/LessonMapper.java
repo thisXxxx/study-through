@@ -2,9 +2,8 @@ package team.weilai.studythrough.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
-import team.weilai.studythrough.pojo.Lesson;
+import team.weilai.studythrough.pojo.main.Lesson;
 import team.weilai.studythrough.pojo.vo.LessonGetVO;
 import team.weilai.studythrough.pojo.vo.LessonVO;
 

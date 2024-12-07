@@ -3,7 +3,7 @@ package team.weilai.studythrough.service;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import team.weilai.studythrough.pojo.dto.LoginDTO;
-import team.weilai.studythrough.pojo.User;
+import team.weilai.studythrough.pojo.main.User;
 import team.weilai.studythrough.pojo.dto.UserDTO;
 import team.weilai.studythrough.pojo.vo.Result;
 import team.weilai.studythrough.pojo.vo.UserVO;

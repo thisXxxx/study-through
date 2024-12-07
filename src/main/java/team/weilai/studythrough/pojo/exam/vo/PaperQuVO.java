@@ -1,7 +1,7 @@
 package team.weilai.studythrough.pojo.exam.vo;
 
 import lombok.Data;
-import team.weilai.studythrough.pojo.exam.QuestionAns;
+import team.weilai.studythrough.pojo.exam.main.QuestionAns;
 
 import java.util.List;
 

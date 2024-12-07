@@ -9,11 +9,7 @@ import org.quartz.impl.StdSchedulerFactory;
  */
 public class TestJob {
     public static void main(String[] args) {
-        JobDetail jobDetail = JobBuilder.newJob(MyJob.class)
-                .withIdentity("job1","group1")
-                .usingJobData("job","gwj's job")
-                .usingJobData("name","jobdetail")
-                .build();
+
 
         //jobDataMap可以用于在启动这个定时器时，往任务中传递一些参数
         //任务类中可以通过获取jobDataMap再获取对应键值，
@@ -24,9 +20,16 @@ public class TestJob {
                 .withIdentity("trigger1","triggerGroup1")
                 .usingJobData("trigger","my trigger")
                 .usingJobData("name","trigger")
+                .usingJobData("tong","triggde")
                 .startNow()
                 .withSchedule(SimpleScheduleBuilder.simpleSchedule().withIntervalInSeconds(1)
                         .repeatForever())
+                .build();
+        JobDetail jobDetail = JobBuilder.newJob(MyJob.class)
+                .withIdentity("job1","group1")
+                .usingJobData("job","gwj's job")
+                .usingJobData("name","jobdetail")
+                .usingJobData("tong","jobde")
                 .build();
 
         try {

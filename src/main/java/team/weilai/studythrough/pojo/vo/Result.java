@@ -2,7 +2,7 @@ package team.weilai.studythrough.pojo.vo;
 
 import lombok.Data;
 import lombok.ToString;
-import team.weilai.studythrough.enums.StatusCodeEnum;
+import team.weilai.studythrough.util.enums.StatusCodeEnum;
 
 
 @Data

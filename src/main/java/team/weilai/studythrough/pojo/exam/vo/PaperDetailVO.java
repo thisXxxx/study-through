@@ -3,7 +3,7 @@ package team.weilai.studythrough.pojo.exam.vo;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import team.weilai.studythrough.pojo.exam.PaperQuestion;
+import team.weilai.studythrough.pojo.exam.main.PaperQuestion;
 
 import java.util.List;
 

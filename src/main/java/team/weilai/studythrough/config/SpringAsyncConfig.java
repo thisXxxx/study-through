@@ -16,7 +16,7 @@ public class SpringAsyncConfig {
      * 线程池参数根据minIO设置，如果开启线程太多会被MinIO拒绝
      * @return ：
      */
-    @Bean("minIOUploadTreadPool")
+    @Bean("threadPool")
     public ThreadPoolTaskExecutor  asyncServiceExecutorForMinIo() {
         ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
         // 设置核心线程数，采用IO密集 h/(1-拥塞)

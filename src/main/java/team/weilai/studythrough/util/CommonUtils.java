@@ -3,10 +3,8 @@ package team.weilai.studythrough.util;
 /**
  * @author gwj
  */
-import io.swagger.models.auth.In;
-import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
-import team.weilai.studythrough.pojo.LoginUser;
+import team.weilai.studythrough.pojo.main.LoginUser;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;

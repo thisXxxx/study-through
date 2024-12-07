@@ -2,7 +2,6 @@ package team.weilai.studythrough.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -15,9 +14,9 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-import team.weilai.studythrough.filter.JwtAuthenticationTokenFilter;
-import team.weilai.studythrough.handler.AccessDeniedHandlerImpl;
-import team.weilai.studythrough.handler.AuthenticationEntryPointImpl;
+import team.weilai.studythrough.config.filter.JwtAuthenticationTokenFilter;
+import team.weilai.studythrough.config.handler.AccessDeniedHandlerImpl;
+import team.weilai.studythrough.config.handler.AuthenticationEntryPointImpl;
 
 import javax.annotation.Resource;
 import java.util.Collections;
