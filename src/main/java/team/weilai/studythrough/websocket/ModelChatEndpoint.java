@@ -4,6 +4,8 @@ import lombok.extern.slf4j.Slf4j;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.WebSocket;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 import team.weilai.studythrough.config.BigModelConfig;
 import team.weilai.studythrough.websocket.config.GetUserConfigurator;
@@ -29,13 +31,14 @@ public class ModelChatEndpoint {
     private static AtomicInteger online = new AtomicInteger(0);
     private static final ConcurrentHashMap<Long,ModelChatEndpoint> wsMap = new ConcurrentHashMap<>();
 
-    private static BigModelConfig config;
-    @Resource
+    private static BigModelConfig bigConfig;
+    @Autowired
+    @Qualifier("bigModelConfig")
     private BigModelConfig modelConfig;
 
     @PostConstruct
     public void init() {
-        config = modelConfig;
+        bigConfig = modelConfig;
     }
 
     private Session session;
@@ -65,14 +68,14 @@ public class ModelChatEndpoint {
 
     @OnMessage
     public void onMessage(String message,Session session) throws Exception {
-        BigModelNew.ask(message);
         //构建鉴权url
+        BigModelConfig.ModelConfig config = bigConfig.getModels().get(0);
         String authUrl = BigModelNew.getAuthUrl(config.getHostUrl(), config.getApiKey(), config.getApiSecret());
         OkHttpClient client = new OkHttpClient.Builder().build();
         String url = authUrl.replace("http://", "ws://").replace("https://", "wss://");
         Request request = new Request.Builder().url(url).build();
-        WebSocket webSocket = client.newWebSocket(request,
-                new BigModelNew(this.userId, false));
+        client.newWebSocket(request,
+                new BigModelNew(this.userId, false,message,false));
         log.info("收到客户端{}的消息：{}", userId, message);
     }
 

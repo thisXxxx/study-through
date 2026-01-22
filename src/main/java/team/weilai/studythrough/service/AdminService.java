@@ -14,6 +14,4 @@ public interface AdminService {
     void getStuSample(HttpServletResponse response) throws IOException;
 
     Result<Void> uploadStu(MultipartFile file,Integer type);
-
-    Result<Void> aiKnow(MultipartFile file);
 }

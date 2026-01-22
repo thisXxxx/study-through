@@ -10,18 +10,18 @@ mybatis-plus:
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://81.70.144.36:3306/study_db
+    url: jdbc:mysql://xxxx:3306/study_db
     username: root
-    password: 211322@luntan
+    password:
     type: com.alibaba.druid.pool.DruidDataSource
   servlet:
     multipart:
       max-file-size: 2048MB
       max-request-size: 2048MB
   redis:
-    host: 81.70.144.36
+    host:
     port: 6379
-    password: G211322@Wj
+    password:
     lettuce:
       pool:
         max-active: 15
@@ -53,25 +53,36 @@ spring:
             threadCount: 10
             threadPriority: 5
             threadsInheritContextClassLoaderOfInitializingThread: true
-  elasticsearch:
-    username: elastic
-    password: 211322GWj@es
-    uris: http://47.121.129.110:9200
+#  elasticsearch:
+#    username: elastic
+#    password: 211322GWj@es
+#    uris: http://47.121.129.110:9200
 
 minio:
-  endpoint: http://81.70.144.36:9000
-  accesskey: DZ13BSEWCL44N24QFF8L
-  secretkey: 33ZZfmPoTVCbdMhuJ2KBLmcJ6VqPoNKNDstB+R3v
+  endpoint: http://xxxx:9000
+  accesskey:
+  secretkey:
   bucket: study
   expiry: 1 # redis 文件信息失效时间 天
   breakpointTime: 1 # 分片地址失效时间 天
   tempBucket: temp-file
 
 model:
-  hostUrl: https://spark-api.xf-yun.com/v4.0/chat
-  apiKey: cb1730e8ef787e92b2c2f3c9c6dd37da
-  apiSecret: OWE5OWNiYjkzNDk3MWNkM2EzYWNhMDc5
-  appId: 3ab592db
-  uploadUrl: https://spark-api.xf-yun.com/v4.0/chat
-  apiPassword: dyMLARXFFviWOEOMVteA:jTTVtpHaimgbrLIbcunR
+  models:
+    - name: Ultra
+      hostUrl: https://spark-api.xf-yun.com/v4.0/chat
+      apiKey: cb1730e8ef787e92b2c2f3c9c6dd37da
+      apiSecret: OWE5OWNiYjkzNDk3MWNkM2EzYWNhMDc5
+      appId: 3ab592db
+      uploadUrl: https://spark-api.xf-yun.com/v4.0/chat
+      apiPassword: dyMLARXFFviWOEOMVteA:jTTVtpHaimgbrLIbcunR
+      domain: 4.0Ultra
+    - name: Max
+      hostUrl: https://spark-api.xf-yun.com/v3.5/chat
+      apiKey: 859151dcc302fe4c5ec8863901e0ac35
+      apiSecret: YzJiM2FhOTAyYmFiYjFmNDAzYWUzYTcy
+      appId: 333c24cd
+      uploadUrl: https://spark-api.xf-yun.com/v3.5/chat
+      apiPassword: fWCOibfFLeIqXIwTQlBC:kDmsBQXnheZTDnHcSRqG
+      domain: generalv3.5
 

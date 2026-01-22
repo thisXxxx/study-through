@@ -58,7 +58,7 @@ public class SecurityConfig {
                 .authorizeRequests()
                 // 对于登录接口 允许未登录时访问，已登录状态不允许访问
                 //permitAll是无论是否匿名都允许访问
-                .antMatchers("/user/login").permitAll()
+                .antMatchers("/user/login","/test","/admin/getStuSample").permitAll()
                 .antMatchers(
                         "/*.html",
                         "/**/*.html",

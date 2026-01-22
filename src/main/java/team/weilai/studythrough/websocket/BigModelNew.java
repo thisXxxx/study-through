@@ -4,12 +4,22 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.google.gson.Gson;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.*;
+import org.omg.CORBA.TIMEOUT;
+import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
+import org.springframework.stereotype.Component;
+import team.weilai.studythrough.config.BigModelConfig;
+import team.weilai.studythrough.util.SpringContextUtil;
 import team.weilai.studythrough.websocket.pojo.model.JsonParse;
 import team.weilai.studythrough.websocket.pojo.model.RoleContent;
 import team.weilai.studythrough.websocket.pojo.model.Text;
 
+import javax.annotation.PostConstruct;
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 import java.io.IOException;
@@ -27,31 +37,38 @@ import java.util.concurrent.ConcurrentHashMap;
 @Slf4j
 public class BigModelNew extends WebSocketListener {
 
-    public static final String appid = "3ab592db";
+    //public static final String appid = "3ab592db";
+
+
+    private int currentModel = 0;
 
     // 对话历史存储集合
     public static Map<Long,List<RoleContent>> hisMap = new ConcurrentHashMap<>();
 
-    public static String totalAnswer = ""; // 大模型的答案汇总
+    public String totalAnswer = ""; // 大模型的答案汇总
 
-    private static String newAsk = "";
+    private String newAsk = "";
 
-    public static synchronized void ask(String question) {
+    /*public static synchronized void ask(String question) {
         newAsk = question;
-    }
+    }*/
 
     public static final Gson gson = new Gson();
+    public static final long TIMEOUT = 5000;
 
     // 个性化参数
     private Long userId;
     private Boolean wsCloseFlag;
+    private Boolean begin;
 
     private static Boolean totalFlag = true; // 控制提示用户是否输入
 
     // 构造函数
-    public BigModelNew(Long userId, Boolean wsCloseFlag) {
+    public BigModelNew(Long userId, Boolean wsCloseFlag,String newAsk,Boolean begin) {
         this.userId = userId;
         this.wsCloseFlag = wsCloseFlag;
+        this.newAsk = newAsk;
+        this.begin = begin;
     }
 
     //若想要大模型能够根据上下文去回答问题，就要把历史问题和历史回答结果全部传回服务端
@@ -74,6 +91,7 @@ public class BigModelNew extends WebSocketListener {
         }
     }
 
+
     // 线程来发送参数
     class ModelThread extends Thread {
         private WebSocket webSocket;
@@ -86,15 +104,18 @@ public class BigModelNew extends WebSocketListener {
 
         public void run() {
             try {
+                BigModelConfig modelConfig = SpringContextUtil.getBean(BigModelConfig.class);
+                BigModelConfig.ModelConfig config = modelConfig.getModels().get(currentModel);
+
                 JSONObject requestJson = new JSONObject();
 
                 JSONObject header = new JSONObject();  // header参数
-                header.put("app_id", appid);
+                header.put("app_id", config.getAppId());
                 header.put("uid", userId+UUID.randomUUID().toString().substring(0,16));
 
                 JSONObject parameter = new JSONObject(); // parameter参数
                 JSONObject chat = new JSONObject();
-                chat.put("domain", "4.0Ultra");
+                chat.put("domain", config.getDomain());
                 chat.put("temperature", 0.5);
                 chat.put("max_tokens", 4096);
                 parameter.put("chat", chat);
@@ -130,19 +151,44 @@ public class BigModelNew extends WebSocketListener {
 
                 webSocket.send(requestJson.toString());
                 // 等待服务端返回完毕后关闭
+                long last = System.currentTimeMillis();
                 while (true) {
-                    // System.err.println(wsCloseFlag + "---");
+                    if (!begin && System.currentTimeMillis() - last > 8000) {
+                        // 超时，切换大模型
+                        log.error("大模型{}无响应，尝试切换模型",config.getName());
+                        webSocket.close(1000, "超时");
+                        switchModel(modelConfig);
+                        break;
+                    }
                     Thread.sleep(200);
                     if (wsCloseFlag) {
                         break;
                     }
                 }
-                webSocket.close(1000, "");
+                if (wsCloseFlag) webSocket.close(1000, "");
             } catch (Exception e) {
                 log.error("【大模型】发送消息错误，{}",e.getMessage());
             }
         }
     }
+
+    private void switchModel(BigModelConfig modelConfig) {
+        currentModel = (currentModel + 1) % modelConfig.getModels().size();
+        connectToModel(modelConfig);
+    }
+
+    private void connectToModel(BigModelConfig modelConfig) {
+        try {
+            BigModelConfig.ModelConfig currentConfig = modelConfig.getModels().get(currentModel);
+            String authUrl = getAuthUrl(currentConfig.getHostUrl(), currentConfig.getApiKey(), currentConfig.getApiSecret());
+            OkHttpClient client = new OkHttpClient();
+            Request request = new Request.Builder().url(authUrl).build();
+            client.newWebSocket(request, this);
+        } catch (Exception e) {
+            log.error("连接模型失败: {}", e.getMessage());
+        }
+    }
+
 
     @Override
     public void onOpen(WebSocket webSocket, Response response) {
@@ -163,6 +209,7 @@ public class BigModelNew extends WebSocketListener {
         List<Text> textList = json.getPayload().getChoices().getText();
         int status = json.getHeader().getStatus();
         for (Text temp : textList) {
+            if (!begin) begin = true;
             // 向客户端发送回答信息，如有存储问答需求，在此处存储
             String msg = temp.getContent();
             if (status == 2) msg += "END";

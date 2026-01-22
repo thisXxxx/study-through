@@ -5,9 +5,11 @@ import com.baomidou.mybatisplus.generator.FastAutoGenerator;
 import com.baomidou.mybatisplus.generator.config.OutputFile;
 import com.baomidou.mybatisplus.generator.engine.FreemarkerTemplateEngine;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.redis.core.RedisTemplate;
 import team.weilai.studythrough.StudyThroughApplication;
+import team.weilai.studythrough.config.BigModelConfig;
 import team.weilai.studythrough.pojo.exam.main.ExamQuestion;
 import team.weilai.studythrough.pojo.exam.dto.QuestionQueryDTO;
 import team.weilai.studythrough.pojo.exam.vo.QuestionVO;
@@ -15,6 +17,7 @@ import team.weilai.studythrough.module.exam.service.QuestionService;
 import team.weilai.studythrough.pojo.vo.Result;
 import team.weilai.studythrough.util.DateUtil;
 import team.weilai.studythrough.util.HaversineUtil;
+import team.weilai.studythrough.util.SpringContextUtil;
 
 import javax.annotation.Resource;
 import java.text.ParseException;
@@ -27,6 +30,8 @@ class StudyThroughApplicationTests {
     private RedisTemplate<String,Object> redisTemplate;
     @Resource
     private QuestionService questionService;
+    @Autowired
+    private BigModelConfig bigModelConfig;
 
     @Test
     void contextLoads() {
@@ -90,11 +95,8 @@ class StudyThroughApplicationTests {
 
     @Test
     void tt() {
-        QuestionQueryDTO dto = new QuestionQueryDTO();
-        dto.setPageNum(1);
-        dto.setPageSize(10);
-        Result<Page<QuestionVO>> result = questionService.select(dto);
-        System.out.println(result.getData().getRecords());
+        BigModelConfig bean = SpringContextUtil.getBean(BigModelConfig.class);
+        System.out.println(bean.getModels());
     }
 
 }

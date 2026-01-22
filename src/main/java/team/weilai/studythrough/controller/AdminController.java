@@ -31,7 +31,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/admin")
 @Api(tags = "管理员")
-@PreAuthorize("hasAuthority('2')")
+//@PreAuthorize("hasAuthority('2')")
 public class AdminController {
 
     @Autowired
@@ -84,12 +84,6 @@ public class AdminController {
         return userService.delUsers(ids);
     }
 
-    @PostMapping("/aiKnow")
-    @ApiOperation("定制ai问答")
-    @ApiIgnore
-    public Result<Void> aiKnow(@RequestPart("file")MultipartFile file) {
-        return adminService.aiKnow(file);
-    }
 
 
 }
