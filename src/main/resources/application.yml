@@ -11,7 +11,7 @@ spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://xxxx:3306/study_db
-    username: root
+    username:
     password:
     type: com.alibaba.druid.pool.DruidDataSource
   servlet:
@@ -73,7 +73,7 @@ model:
       hostUrl: https://spark-api.xf-yun.com/v4.0/chat
       apiKey:
       apiSecret:
-      appId: 3ab592db
+      appId:
       uploadUrl: https://spark-api.xf-yun.com/v4.0/chat
       apiPassword:
       domain: 4.0Ultra
@@ -81,7 +81,7 @@ model:
       hostUrl: https://spark-api.xf-yun.com/v3.5/chat
       apiKey:
       apiSecret:
-      appId: 333c24cd
+      appId:
       uploadUrl: https://spark-api.xf-yun.com/v3.5/chat
       apiPassword:
       domain: generalv3.5
