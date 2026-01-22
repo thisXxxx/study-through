@@ -71,18 +71,18 @@ model:
   models:
     - name: Ultra
       hostUrl: https://spark-api.xf-yun.com/v4.0/chat
-      apiKey: cb1730e8ef787e92b2c2f3c9c6dd37da
-      apiSecret: OWE5OWNiYjkzNDk3MWNkM2EzYWNhMDc5
+      apiKey:
+      apiSecret:
       appId: 3ab592db
       uploadUrl: https://spark-api.xf-yun.com/v4.0/chat
-      apiPassword: dyMLARXFFviWOEOMVteA:jTTVtpHaimgbrLIbcunR
+      apiPassword:
       domain: 4.0Ultra
     - name: Max
       hostUrl: https://spark-api.xf-yun.com/v3.5/chat
-      apiKey: 859151dcc302fe4c5ec8863901e0ac35
-      apiSecret: YzJiM2FhOTAyYmFiYjFmNDAzYWUzYTcy
+      apiKey:
+      apiSecret:
       appId: 333c24cd
       uploadUrl: https://spark-api.xf-yun.com/v3.5/chat
-      apiPassword: fWCOibfFLeIqXIwTQlBC:kDmsBQXnheZTDnHcSRqG
+      apiPassword:
       domain: generalv3.5
 
